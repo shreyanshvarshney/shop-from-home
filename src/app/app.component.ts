@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
 
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  // styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'shop-from-home';
+  item$: Observable<any[]>;
+  items: any = [];
+
+  constructor(db: AngularFireDatabase) {
+    this.item$ = db.list('items').valueChanges();
+    this.item$.subscribe((data) => {
+      this.items = data;
+      console.log(data);
+    });
+    
+  }
 }
