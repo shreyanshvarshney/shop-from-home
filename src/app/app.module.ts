@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from './../environments/environment';
+import { FirebaseService } from './../service/firebase.service';
+
 import { AngularFireModule } from '@angular/fire';
 
 // For using Realtime Database in Firebase
@@ -24,7 +26,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireDatabaseModule
   ],
   // providers: [AngularFirestore],
-  providers: [],
+  providers: [
+    FirebaseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

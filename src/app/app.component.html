@@ -1,5 +1,13 @@
 <ul>
-    <li *ngFor="let item of items">
-       {{ item | json }}
+    <li *ngFor="let item of item$">
+       {{ item?.payload?._delegate?._node?.value_ }}
+       <button (click)="update(item.key, item?.payload?._delegate?._node?.value_)">Update</button>
+       <button (click)="delete(item.key)">Delete</button>
+       <input (keyup.enter)="updateItem(item.key,newValue)" type="text" #newValue>
     </li>
 </ul>
+
+<div>
+    <label for="">Add furits:</label>
+    <input type="text" name="" id="" (keyup.enter)="add(fruit)" #fruit>
+</div>
