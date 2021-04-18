@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "shop-from-home-sfh",
+    "public": "dist/shop-from-home",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
