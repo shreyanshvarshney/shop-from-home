@@ -19,6 +19,7 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 // For using Realtime Database in Firebase
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -46,6 +47,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     NgbModule
   ],
   // providers: [AngularFirestore],
