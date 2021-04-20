@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from './../environments/environment';
-import { FirebaseService } from './../service/firebase.service';
+import { AuthService } from './../service/auth.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -48,11 +49,12 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   // providers: [AngularFirestore],
   providers: [
-    FirebaseService
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
