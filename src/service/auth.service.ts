@@ -12,6 +12,7 @@ export class AuthService implements OnInit {
   user$: Observable<firebase.default.User>;
 
   constructor(private afAuth: AngularFireAuth) {
+    // Every time a user "log in" or "log out" this user$ Observable will emit a value either null or an firebase.User object.
     this.user$ = afAuth.authState;
   }
 
