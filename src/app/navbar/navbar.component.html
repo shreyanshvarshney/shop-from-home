@@ -9,12 +9,9 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/shopping-cart" routerLinkActive="active">Shopping Cart</a>
         </li>
-        <li *ngIf="!user" class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
-        </li>
-        <li *ngIf="user" ngbDropdown class="nav-item dropdown">
+        <li *ngIf="auth.user$ | async as user; else nonAuthorizedUser" ngbDropdown class="nav-item dropdown">
           <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ userData.name }}
+            {{ user.displayName }}
           </a>
           <div ngbDropdownMenu class="dropdown-menu"  aria-labelledby="dropdown01">
             <a ngbDropdownItem routerLink="/my-orders">My Orders</a>
@@ -23,6 +20,11 @@
             <a ngbDropdownItem (click)="logout()" class="logout">Logout</a>
           </div>
         </li>
+        <ng-template #nonAuthorizedUser>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+          </li>
+        </ng-template>
       </ul>
     </div>
 </nav>

@@ -12,32 +12,33 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   userData: any = {};
-  user: firebase.default.User;
 
   constructor(public auth: AuthService, private router: Router, private alertService: AlertService) { }
 
   ngOnInit(): void {
-    this.auth.getAuthState()
-    .subscribe((data) => {
-      this.user = data;
-      this.formatUserData(data);
-      console.log(this.user);
-      
-      console.log(this.userData);
-      // if(data !== null) {
-      //   this.alertService.fireToast('success','Login Successfull');
-      // }
-    });
+    // authState returns an Observable which contains user auth details.
+    // I can avoid this below implementation using "async" pipe in my HTML template.
+    // async pipe will automatically subscribe, fetch new data, unsubscribe to the Observale<firebase.User>
+    // Can "avoid" this below code when using async pipe
+
+    // this.auth.getAuthState()
+    // .subscribe((data) => {
+    //   this.user$ = data;
+    //   this.formatUserData(data);
+    //   console.log(this.user$);
+    //   console.log(this.userData);
+    // });
+
   }
 
-  formatUserData(data) {
-    let obj = {
-      name: this.user?.displayName,
-      email: this.user?.email,
-      profile_pic: this.user?.photoURL
-    }
-    this.userData = obj;
-  }
+  // formatUserData(data) {
+  //   let obj = {
+  //     name: this.user$?.displayName,
+  //     email: this.user$?.email,
+  //     profile_pic: this.user$?.photoURL
+  //   }
+  //   this.userData = obj;
+  // }
 
   logout() {
     this.auth.logout()

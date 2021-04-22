@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase';
+import { AuthService } from './../../service/auth.service';
 import { AlertService } from 'src/service/alert.service';
 
 @Component({
@@ -13,11 +12,11 @@ export class LoginComponent implements OnInit {
 
   loading: boolean = false;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router, private alertService: AlertService) { }
+  constructor(private auth: AuthService, private router: Router, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.loading = true;
-    this.afAuth.getRedirectResult()
+    this.auth.getRedirectResult()
     .then((result) => {      
       console.log(result);
       if(result.user) {
@@ -37,14 +36,7 @@ export class LoginComponent implements OnInit {
     //   this.router.navigate(['/']);
     //   this.alertService.fireToast('success','Login Successfull');
     // });
-    this.afAuth.signInWithRedirect(new firebase.default.auth.GoogleAuthProvider());
-    // .then(() => {
-    //   console.log("Login Successfull.");
-    //   this.alertService.fireToast('success','Login Successfull');
-    // },
-    // (reason) => {
-    //   console.log(reason);
-    // });
+    this.auth.login();
     this.loading = true;
   }
 
