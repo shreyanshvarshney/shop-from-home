@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   userData: any = {};
   userDetails: UserDataModels;
-  collapsed: boolean = true;
+  isMenuCollapsed: boolean = true;
 
   constructor(private auth: AuthService, 
               private router: Router, 

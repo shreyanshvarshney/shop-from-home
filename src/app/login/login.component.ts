@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     .then((result) => {      
       console.log(result);
       if(result.user) {
-        this.auth.isLoggedIn = true;
         // Adding user details in our database endpoint 'users/'.
         this.auth.user$.subscribe((data) => {
           this.userService.addUser(data);
