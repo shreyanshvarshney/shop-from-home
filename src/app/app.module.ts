@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from './../environments/environment';
 import { AuthService } from './../service/auth.service';
+import { UserService } from './../service/user.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -54,7 +55,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
   ],
   // providers: [AngularFirestore],
   providers: [
-    AuthService
+    AuthService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

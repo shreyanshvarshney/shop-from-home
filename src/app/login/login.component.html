@@ -4,7 +4,8 @@
   </div>
   <form *ngIf="!loading" class="form-signin">
     <img class="mb-4" src="../../assets/img/sfh-logo.png" alt="" width="200" height="200">
-    <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
+    <div *ngIf="!auth.isLoggedIn; else loggedIn">
+      <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
       <div class="row">
           <div class="col-lg-3 mx-auto">
               <button (click)="login()" class="btn btn-lg btn-primary btn-block" type="button">
@@ -12,6 +13,18 @@
               </button>
           </div>
       </div>
+    </div>
+    <ng-template #loggedIn>
+      <h1 class="h4 mb-3 font-weight-normal">Already Logged In...</h1>
+      <div class="row">
+          <div class="col-lg-3 mx-auto">
+              <button disabled (click)="login()" class="btn btn-lg btn-primary btn-block" type="button">
+                  Login with Google <i class="fa fa-google"></i>
+              </button>
+          </div>
+      </div>
+    </ng-template>
+
     <p class="mt-5 mb-3 text-muted">&copy; 2020-2021</p>
   </form>
 </div>

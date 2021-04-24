@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from './../../service/auth.service';
 import { AlertService } from './../../service/alert.service';
+import { UserService } from './../../service/user.service';
 import { Router } from '@angular/router';
+
+import { UserDataModels } from './../../data-models/UserDataModels';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +15,10 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   userData: any = {};
-
-  constructor(public auth: AuthService, private router: Router, private alertService: AlertService) { }
+  userDetails: UserDataModels;
+  constructor(private auth: AuthService, 
+              private router: Router, 
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     // authState returns an Observable which contains user auth details.
@@ -29,6 +34,10 @@ export class NavbarComponent implements OnInit {
     //   console.log(this.userData);
     // });
 
+    this.auth.userDetails$.subscribe((data) => {      
+      this.userDetails = data;
+      console.log(this.userDetails);
+    });    
   }
 
   // formatUserData(data) {

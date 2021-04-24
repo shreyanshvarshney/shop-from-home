@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './../../service/auth.service';
 import { AlertService } from 'src/service/alert.service';
+import { UserService } from './../../service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,11 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   returnUrl: string;
 
-  constructor(private auth: AuthService, 
+  constructor(public auth: AuthService, 
+              // auth instance is public member because i am using it in my html template.
               private router: Router, 
               private alertService: AlertService,
+              private userService: UserService,
               private activatedRoute: ActivatedRoute) {
                this.activatedRoute.queryParams
                .subscribe((queryParams) => {
@@ -34,6 +37,11 @@ export class LoginComponent implements OnInit {
     .then((result) => {      
       console.log(result);
       if(result.user) {
+        this.auth.isLoggedIn = true;
+        // Adding user details in our database endpoint 'users/'.
+        this.auth.user$.subscribe((data) => {
+          this.userService.addUser(data);
+        });
         // this.router.navigate([this.returnUrl]);
         this.router.navigateByUrl(this.returnUrl);
         this.alertService.fireToast('success','Login Successfull');

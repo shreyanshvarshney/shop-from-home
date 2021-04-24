@@ -2,7 +2,10 @@ import { Injectable, OnInit } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { UserService } from './user.service';
+import { UserDataModels } from './../data-models/UserDataModels';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +13,15 @@ import { Observable } from 'rxjs';
 export class AuthService implements OnInit {
 
   user$: Observable<firebase.default.User>;
+  isLoggedIn: boolean = false;
 
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth, private userServie: UserService) {
     // Every time a user "log in" or "log out" this user$ Observable will emit a value either null or an firebase.User object.
     this.user$ = afAuth.authState;
+    this.user$.subscribe((data) => {
+      if(data) this.isLoggedIn = true;
+    });
+    
   }
 
   ngOnInit() {}
@@ -27,6 +35,7 @@ export class AuthService implements OnInit {
   }
 
   logout() {
+    this.isLoggedIn = false;
     return this.afAuth.signOut();
   }
 
@@ -37,4 +46,14 @@ export class AuthService implements OnInit {
   getAuthState() {
     return this.afAuth.authState;
   }
+
+  get userDetails$(): Observable<UserDataModels> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        if(user) return this.userServie.getUser(user?.uid).valueChanges();
+        else return of(null);
+      })
+    );
+  }
+
 }
