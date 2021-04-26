@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <a class="navbar-brand" routerLink="/">Shop From Home</a>
     <button (click)="isMenuCollapsed = !isMenuCollapsed" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,8 +16,9 @@
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
             <a ngbDropdownItem routerLink="/my-orders" (click)="isMenuCollapsed = true">My Orders</a>
             <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/orders" (click)="isMenuCollapsed = true">Manage Orders</a>
-            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/products" (click)="isMenuCollapsed = true">Manage Products</a>
-            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout">Logout</a>
+            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/products/list" (click)="isMenuCollapsed = true">Manage Products</a>
+            <li><hr class="dropdown-divider"></li>
+            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
           </div>
         </li>
         <ng-template #nonAuthorizedUser>

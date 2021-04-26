@@ -2,11 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from './../environments/environment';
 import { AuthService } from './../service/auth.service';
 import { UserService } from './../service/user.service';
+import { CategoryService } from './../service/category.service';
+import { ProductService } from './../service/product.service';
+import { AdminAuthGuard } from './../guards/admin-auth.guard';
+import { AuthGuard } from './../guards/auth.guard';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -25,6 +31,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 // For using Realtime Database in Firebase
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 // For using Cloud Firestore in Firebase
 // import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
@@ -42,7 +49,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AdminOrdersComponent,
     CheckOutComponent,
     OrderSuccessComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -51,12 +59,19 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule
   ],
   // providers: [AngularFirestore],
   providers: [
     AuthService,
-    UserService
+    UserService,
+    CategoryService,
+    ProductService,
+    AuthGuard,
+    AdminAuthGuard
   ],
   bootstrap: [AppComponent]
 })

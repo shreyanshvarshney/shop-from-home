@@ -1,1 +1,43 @@
-<p>admin-products works!</p>
+<div class="mt-4">
+
+    <button routerLink="/admin/products/create" class="btn btn-primary" type="button">
+        Add Product <i class="fa fa-cart-plus"></i>
+    </button>
+    <form class="mt-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-search-plus"></i></div>
+            </div>
+            <input (keyup.enter)="onSubmitSearch()" [(ngModel)]="search" type="text" name="search" id="search" class="form-control" placeholder="Search products...">
+        </div>
+    </form>
+    <div class="table-responsive mt-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of products; let x = index;">
+                    <td>{{ x+1 }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.price | currency: item.currency }}</td>
+                    <td>
+                        <button (click)="updateProduct(item.key)" class="btn btn-primary btn-sm">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        &nbsp;
+                        <button (click)="deleteProduct(item.key)" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>

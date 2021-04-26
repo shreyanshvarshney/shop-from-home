@@ -2,13 +2,13 @@
   <div *ngIf="loading" class="text-center">
     <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
   </div>
-  <form *ngIf="!loading" class="form-signin">
+  <form *ngIf="!loading">
     <img class="mb-4" src="../../assets/img/sfh-logo.png" alt="" width="200" height="200">
     <div *ngIf="!auth.isLoggedIn; else loggedIn">
       <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
       <div class="row">
           <div class="col-lg-3 mx-auto">
-              <button (click)="login()" class="btn btn-lg btn-primary btn-block" type="button">
+              <button (click)="login()" class="btn btn-lg btn-primary" type="button">
                   Login with Google <i class="fa fa-google"></i>
               </button>
           </div>

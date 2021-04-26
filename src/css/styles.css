@@ -1,8 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* ng-select module theme css */
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
-body {
+/* this padding-top is commented because I am using position of my navbar as position: sticky-top */
+/* body {
     padding-top: 80px;
+} */
+/* padding under menu after resize */
+/* @media screen and (max-width: 767px) {
+    body { padding-top: 100px; }
+} */
+
+/* input element border wiil be Red if invalid  */
+.form-control.ng-invalid.ng-touched {
+  border: 2px rgb(255, 180, 180) solid;
 }
 
 /* load spinner css starts here */

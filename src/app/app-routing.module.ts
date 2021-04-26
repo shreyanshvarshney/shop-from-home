@@ -10,6 +10,7 @@ import { OrderSuccessComponent } from './order-success/order-success.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminAuthGuard } from './../guards/admin-auth.guard';
@@ -48,8 +49,18 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin/products',
+    path: 'admin/products/list',
     component: AdminProductsComponent,
+    canActivate: [AuthGuard, AdminAuthGuard]
+  },
+  {
+    path: 'admin/products/create',
+    component: ProductFormComponent,
+    canActivate: [AuthGuard, AdminAuthGuard]
+  },
+  {
+    path: 'admin/products/update/:unique_key',
+    component: ProductFormComponent,
     canActivate: [AuthGuard, AdminAuthGuard]
   },
   {
