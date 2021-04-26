@@ -1,0 +1,92 @@
+<div class="mt-4">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm)">
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="title">Title</label>
+                        <input formControlName="title" class="form-control" type="text" id="title" name="title">
+                        <small class="text-danger" *ngIf="title.errors && title.touched">
+                            <div *ngIf="title.errors?.required">
+                                This field cannot be left blank
+                            </div>
+                            <div *ngIf="title.errors?.minlength">
+                                Title should contain atleast {{title.errors?.minlength.requiredLength}} characters
+                            </div>
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="currency">Currency</label>
+                        <ng-select formControlName="currency" id="currency" name="currency">
+                            <ng-option value="INR">INR</ng-option>
+                            <ng-option value="USD">USD</ng-option>
+                            <ng-option value="EUR">EUR</ng-option>
+                        </ng-select>
+                        <small class="text-danger" *ngIf="currency.errors && currency.touched">
+                            <div *ngIf="currency.errors?.required">
+                                This field cannot be left blank
+                            </div>
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="price">Price</label>
+                        <input formControlName="price" class="form-control" type="number" min="0" id="price" name="price">
+                        <small class="text-danger" *ngIf="price.errors && price.touched">
+                            <div *ngIf="price.errors?.required">
+                                This field cannot be left blank
+                            </div>
+                            <div *ngIf="price.errors?.min">
+                                Price should be minimum {{price.errors?.min.min}} 
+                            </div>
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="category">Category</label>
+                        <ng-select formControlName="category" id="category" name="category">
+                            <ng-option *ngFor="let item of categories" [value]="item.key">
+                                {{item.name}}
+                            </ng-option>
+                        </ng-select>
+                        <small class="text-danger" *ngIf="category.errors && category.touched">
+                            <div *ngIf="category.errors?.required">
+                                This field cannot be left blank
+                            </div>
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="image_url">Image URL</label>
+                        <input formControlName="image_url" class="form-control" type="text" id="image_url" name="image_url">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <p>{{productForm.value | json}}</p>
+        </div>
+        <div class="col-lg-6 align-self-center">
+            <div class="card" style="width: 100%">
+                <img class="card-img-top" src="{{ productForm.controls.image_url.value }}" alt="Please enter all details">
+                <div class="card-body">
+                  <h5 class="card-title d-inline-block align-content-center">{{productForm.controls.title.value}}</h5>
+                  <p *ngIf="productForm.controls.category.value" class="btn btn-primary btn-sm d-inline-block align-content-center ml-3"><i class="fa fa-tag"></i> {{productForm.controls.category.value}}</p>
+                  <p class="card-text">{{productForm.controls.price.value | currency: productForm.controls.currency.value}}</p>
+                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+            </div>
+        </div> 
+    </div>
+
+</div>

@@ -1,0 +1,148 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from './../../../service/alert.service';
+import { CategoryService } from './../../../service/category.service';
+import { ProductService } from './../../../service/product.service';
+
+@Component({
+  selector: 'app-product-form',
+  templateUrl: './product-form.component.html',
+  styleUrls: ['./product-form.component.css']
+})
+export class ProductFormComponent implements OnInit, OnDestroy {
+
+  productForm: FormGroup;
+  categories: any = [];
+  subscription: Subscription;
+
+  product_key: string;
+  productData: any = {};
+
+  constructor(private fb: FormBuilder, 
+              private alertService: AlertService, 
+              private categoryService: CategoryService,
+              private productService: ProductService,
+              private activatedRoute: ActivatedRoute) { 
+                this.activatedRoute.paramMap
+                .subscribe((paramMap) => {
+                  this.product_key = paramMap.get('unique_key');
+                });
+              }
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.loadCategoriesData();
+
+    if(this.product_key && this.product_key !== '') {
+      this.loadProductData();
+    }
+  }
+
+  initializeForm() {
+    this.productForm = this.fb.group({
+      title: new FormControl('',[Validators.required, Validators.minLength(3)]),
+      price: new FormControl('',[Validators.required, Validators.min(0)]),
+      currency: new FormControl('INR',Validators.required),
+      category: new FormControl('', [Validators.required]),
+      image_url: new FormControl('')
+    });
+    // console.log(this.productForm);
+  }
+
+  loadCategoriesData() {
+    this.subscription = this.categoryService.getAll()
+    .subscribe((data) => {
+      this.categories = data.map((value) => {
+        const data: Object = value.payload.val();
+        const key = value.payload.key;
+        const obj = {
+          ...data,
+          key: key
+        };
+        return obj;
+      });
+    });
+  }
+
+  formatCategoriesData(data) {
+    // Making my categories array empty everytime as firebase send data again on any modification.
+    this.categories = [];
+    // Iterating over all properties of an object send by the server and formatting them into an array.
+    // As in HTML template *ngFor directive works for iteratives like Arrays.
+    for(const item in data) {
+      let obj = {
+        key: item,
+        name: data[item]?.name
+      };
+      this.categories.push(obj);
+    }
+  }
+
+  onSubmit(form: FormGroup) {
+    if(form.valid) {
+      console.log(form.value);
+      // Saving this product in my Database.
+      this.productService.create(form.value)
+      .then(() => {
+        form.reset();
+        this.alertService.fireToast('success', 'Product added successfully.');
+      })
+      .catch((reason) => {
+        console.log(reason);
+        this.alertService.fireToast('error', 'Some error occurred.');
+      });
+    }
+    else {
+      this.alertService.fireToast('error', 'Please fill the form correctly.');
+    }
+  }
+
+  loadProductData() {
+    this.productService.get(this.product_key)
+    .subscribe((data) => {
+      data.map((value) => {
+        const key = value?.payload?.key;
+        const data = value?.payload?.val();
+        // console.log(key,data);
+        this.formatProductData(key,data);
+      });
+      console.log(this.productData);
+      this.prefillForm();
+    });
+  }
+
+  formatProductData(key: string, value: any) {
+    this.productData[key] = value; 
+  }
+
+  prefillForm() {
+    this.productForm.controls.title.setValue(this.productData?.title);
+    this.productForm.controls.currency.setValue(this.productData?.currency);
+    this.productForm.controls.price.setValue(this.productData?.price);
+    this.productForm.controls.category.setValue(this.productData?.category);
+    this.productForm.controls.image_url.setValue(this.productData?.image_url);
+  }
+
+  // defined getter functions for directly accessing the form fields in HTML template
+  get title() {
+    return this.productForm.controls.title; 
+  }
+  get price() {
+    return this.productForm.controls.price; 
+  }
+  get currency() {
+    return this.productForm.controls.currency; 
+  }
+  get category() {
+    return this.productForm.controls.category; 
+  }
+  get image_url() {
+    return this.productForm.controls.image_url; 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}
