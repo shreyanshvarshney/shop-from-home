@@ -170,6 +170,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription1.unsubscribe();
-    this.subscription2.unsubscribe();
+    if(this.product_key && this.product_key !== '') {
+      this.subscription2.unsubscribe();
+    }
   }
 }
