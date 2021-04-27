@@ -13,6 +13,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   search: string;
   products: any = [];
+  filteredProducts: any = [];
   subscription: Subscription;
 
   constructor(private productService: ProductService, 
@@ -26,7 +27,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   loadProducts() {
     this.subscription = this.productService.getAll()
     .subscribe((data) => {      
-      this.products = data.map((value) => {
+      this.filteredProducts = this.products = data.map((value) => {
         // console.log(value);
         const key = value?.payload?.key;
         const data: Object = value?.payload?.val();
@@ -60,9 +61,13 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmitSearch() {
-    console.log(this.search);
-    this.search = '';
+  // Implementing Client-side Searching.
+  filter() {
+    let query: string = this.search;
+    this.filteredProducts = (query) ? this.products.filter((value) => {
+      return value.title.toLowerCase().includes(query.toLowerCase());
+    }) : this.products;
+    // console.log(this.filteredProducts);
   }
 
   ngOnDestroy(): void {

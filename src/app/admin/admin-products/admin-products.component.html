@@ -8,10 +8,10 @@
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fa fa-search-plus"></i></div>
             </div>
-            <input (keyup.enter)="onSubmitSearch()" [(ngModel)]="search" type="text" name="search" id="search" class="form-control" placeholder="Search products...">
+            <input (keyup)="filter()" [(ngModel)]="search" type="text" name="search" id="search" class="form-control" placeholder="Search products...">
         </div>
     </form>
-    <div class="table-responsive mt-5">
+    <div *ngIf="filteredProducts.length; else NoData" class="table-responsive mt-5">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of products; let x = index;">
+                <tr *ngFor="let item of filteredProducts; let x = index;">
                     <td>{{ x+1 }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.price | currency: item.currency }}</td>
@@ -39,5 +39,8 @@
             </tbody>
         </table>
     </div>
-    
+    <ng-template #NoData>
+        <p class="mt-5 text-center text-muted">Product not available.</p>
+    </ng-template>
+
 </div>
