@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductService } from './../../../service/product.service';
+import { AlertService } from 'src/service/alert.service';
 
 @Component({
   selector: 'app-admin-products',
@@ -14,7 +15,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   products: any = [];
   subscription: Subscription;
 
-  constructor(private productService: ProductService, private router: Router) { }
+  constructor(private productService: ProductService, 
+              private router: Router,
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -45,7 +48,16 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   deleteProduct(key: string) {
-    
+    // if user clicks the cancel button we will simply return from the delete function.
+    if(!window.confirm('Are you sure you want to delete this product?')) return;
+    this.productService.delete(key)
+    .then(() => {
+      this.alertService.fireToast('success', 'Product deleted successfully.');
+    })
+    .catch((reason) => {
+      console.log(reason);
+      this.alertService.fireToast('error', 'Some error occurred.');
+    });
   }
 
   onSubmitSearch() {

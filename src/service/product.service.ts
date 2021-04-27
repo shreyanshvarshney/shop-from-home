@@ -25,4 +25,8 @@ export class ProductService {
     return this.db.list('products').update(key,data);
     // return this.db.object('products/' + key).update(data);
   }
+
+  delete(key: string) {
+    return this.db.list('products').remove(key);
+  }
 }
