@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <a class="navbar-brand" routerLink="/">Shop From Home</a>
+    <button (click)="isMenuCollapsed = !isMenuCollapsed" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngbCollapse]="isMenuCollapsed" id="navbarsExampleDefault" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shopping-cart" routerLinkActive="active" (click)="isMenuCollapsed = true">Shopping Cart</a>
+        </li>
+        <li *ngIf="userDetails; else nonAuthorizedUser" ngbDropdown class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-user-circle"></span> {{ userDetails.name }}
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+            <a ngbDropdownItem routerLink="/my-orders" (click)="isMenuCollapsed = true">My Orders</a>
+            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/orders" (click)="isMenuCollapsed = true">Manage Orders</a>
+            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/products/list" (click)="isMenuCollapsed = true">Manage Products</a>
+            <li><hr class="dropdown-divider"></li>
+            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
+          </div>
+        </li>
+        <ng-template #nonAuthorizedUser>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="isMenuCollapsed = true">Login</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+</nav>
