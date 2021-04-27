@@ -20,4 +20,9 @@ export class ProductService {
   get(key: string) {
     return this.db.list('products/' + key).snapshotChanges();
   }
+
+  update(key: string, data: any) {
+    return this.db.list('products').update(key,data);
+    // return this.db.object('products/' + key).update(data);
+  }
 }

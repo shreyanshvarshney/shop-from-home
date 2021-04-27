@@ -78,11 +78,11 @@
         </div>
         <div class="col-lg-6 align-self-center">
             <div class="card" style="width: 100%">
-                <img class="card-img-top" src="{{ productForm.controls.image_url.value }}" alt="Please enter all details">
+                <img class="card-img-top" src="{{ image_url.value }}" alt="Please enter all details">
                 <div class="card-body">
-                  <h5 class="card-title d-inline-block align-content-center">{{productForm.controls.title.value}}</h5>
-                  <p *ngIf="productForm.controls.category.value" class="btn btn-primary btn-sm d-inline-block align-content-center ml-3"><i class="fa fa-tag"></i> {{productForm.controls.category.value}}</p>
-                  <p class="card-text">{{productForm.controls.price.value | currency: productForm.controls.currency.value}}</p>
+                  <h5 class="card-title d-inline-block align-content-center">{{title.value}}</h5>
+                  <p *ngIf="productForm.controls.category.value" class="btn btn-primary btn-sm d-inline-block align-content-center ml-3"><i class="fa fa-tag"></i> {{category.value}}</p>
+                  <p class="card-text">{{price.value | currency: currency.value}}</p>
                   <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
             </div>

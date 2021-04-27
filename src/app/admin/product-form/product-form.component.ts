@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from './../../../service/alert.service';
 import { CategoryService } from './../../../service/category.service';
@@ -15,20 +16,30 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   productForm: FormGroup;
   categories: any = [];
-  subscription: Subscription;
+  subscription1: Subscription;
+  subscription2: Subscription;
 
   product_key: string;
   productData: any = {};
 
   constructor(private fb: FormBuilder, 
+              private router: Router,
               private alertService: AlertService, 
               private categoryService: CategoryService,
               private productService: ProductService,
               private activatedRoute: ActivatedRoute) { 
+                // this.activatedRoute.paramMap
+                // .subscribe((paramMap) => {
+                //   this.product_key = paramMap.get('unique_key');
+                // });
+                // Using take() in rxjs because here I dont need new values, just want a route parameter.
+                // then take() function will automatically unsubscribe the observable after taking 1 value.
                 this.activatedRoute.paramMap
-                .subscribe((paramMap) => {
-                  this.product_key = paramMap.get('unique_key');
-                });
+                .pipe(
+                  take(1)
+                ).subscribe((paramMap) => {
+                    this.product_key = paramMap.get('unique_key');
+                  });
               }
 
   ngOnInit(): void {
@@ -52,7 +63,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   loadCategoriesData() {
-    this.subscription = this.categoryService.getAll()
+    this.subscription1 = this.categoryService.getAll()
     .subscribe((data) => {
       this.categories = data.map((value) => {
         const data: Object = value.payload.val();
@@ -83,16 +94,31 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   onSubmit(form: FormGroup) {
     if(form.valid) {
       console.log(form.value);
-      // Saving this product in my Database.
-      this.productService.create(form.value)
-      .then(() => {
-        form.reset();
-        this.alertService.fireToast('success', 'Product added successfully.');
-      })
-      .catch((reason) => {
-        console.log(reason);
-        this.alertService.fireToast('error', 'Some error occurred.');
-      });
+
+      if(this.product_key && this.product_key !== '') {
+        // Update this product in my Database.
+        this.productService.update(this.product_key, form.value)
+        .then(() => {
+          this.alertService.fireToast('success', 'Product updated successfully.');
+        })
+        .catch((reason) => {
+          console.log(reason);
+          this.alertService.fireToast('error', 'Some error occurred.');
+        });
+      }
+      else {
+        // Creating this product in my Database.
+        this.productService.create(form.value)
+        .then(() => {
+          form.reset();
+          this.alertService.fireToast('success', 'Product added successfully.');
+        })
+        .catch((reason) => {
+          console.log(reason);
+          this.alertService.fireToast('error', 'Some error occurred.');
+        });
+      }
+      this.router.navigate(['/admin/products/list']);
     }
     else {
       this.alertService.fireToast('error', 'Please fill the form correctly.');
@@ -100,7 +126,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   loadProductData() {
-    this.productService.get(this.product_key)
+    this.subscription2 = this.productService.get(this.product_key)
     .subscribe((data) => {
       data.map((value) => {
         const key = value?.payload?.key;
@@ -113,8 +139,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  formatProductData(key: string, value: any) {
-    this.productData[key] = value; 
+  formatProductData(key: string, data: any) {
+    this.productData[key] = data; 
   }
 
   prefillForm() {
@@ -143,6 +169,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }
