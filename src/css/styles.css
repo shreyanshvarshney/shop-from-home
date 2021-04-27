@@ -12,6 +12,27 @@
     body { padding-top: 100px; }
 } */
 
+/* navbar css starts here */
+
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  border-bottom: 2px solid #e1efff;
+}
+
+/* @media screen and (min-width: 768px) {
+  .dropdown:hover .dropdown-menu{
+    display: block;
+    margin-top: 0;
+  }
+} */
+
+/* navbar css ends here */
+
 /* input element border wiil be Red if invalid  */
 .form-control.ng-invalid.ng-touched {
   border: 2px rgb(255, 180, 180) solid;
