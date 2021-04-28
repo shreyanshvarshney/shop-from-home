@@ -121,7 +121,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.router.navigate(['/admin/products/list']);
     }
     else {
-      this.alertService.fireToast('error', 'Please fill the form correctly.');
+      this.alertService.fireToast('error', 'Please fill the form correctly');
     }
   }
 
@@ -149,6 +149,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productForm.controls.price.setValue(this.productData?.price);
     this.productForm.controls.category.setValue(this.productData?.category);
     this.productForm.controls.image_url.setValue(this.productData?.image_url);
+  }
+
+  imageErrorHandler(event) {
+    // console.log(event.target.src);
+    if(this.image_url.value) this.alertService.fireToast('error','Enable to fetch your given image');
+    event.target.src = './../../../assets/img/default-product-image.png';
   }
 
   // defined getter functions for directly accessing the form fields in HTML template
