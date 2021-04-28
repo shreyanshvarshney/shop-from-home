@@ -121,7 +121,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.router.navigate(['/admin/products/list']);
     }
     else {
-      this.alertService.fireToast('error', 'Please fill the form correctly');
+      this.alertService.fireToast('error', 'Please fill all the fields with valid information');
     }
   }
 
