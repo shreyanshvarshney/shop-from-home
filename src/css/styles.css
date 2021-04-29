@@ -33,6 +33,34 @@
 
 /* navbar css ends here */
 
+/* Responsive CSS starts here */
+
+/* Extra small devices */
+@media (max-width: 575.98px) { 
+  /* For preview card in admin product form component */
+  .preview-card {
+    margin-top: 3rem;
+  }
+}
+/* Small devices */
+@media (max-width: 767.98px) {
+  .preview-card {
+    margin-top: 3rem;
+  }
+}
+/* Medium devices */
+@media (max-width: 991.98px) {
+  .preview-card {
+    margin-top: 3rem;
+  }
+}
+/* Large devices */
+@media (max-width: 1199.98px) {
+
+}
+
+/* Responsive CSS ends here */
+
 /* input element border wiil be Red if invalid  */
 .form-control.ng-invalid.ng-touched {
   border: 2px rgb(255, 180, 180) solid;
