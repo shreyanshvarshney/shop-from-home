@@ -36,6 +36,8 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 // For using Cloud Firestore in Firebase
 // import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    MatTooltipModule,
+    MatButtonModule
   ],
   // providers: [AngularFirestore],
   providers: [

@@ -68,8 +68,25 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-lg-2">
+                    <div *ngIf="!product_key; else updateView" class="col-lg-2">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <ng-template #updateView>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </ng-template>
+                    <div class="col-lg-2">
+                        <button mat-raised-button 
+                                matTooltip="Back to Products List"
+                                matTooltipPosition="below"
+                                matTooltipShowDelay="100"
+                                aria-label="Button that shows a previous page tooltip" 
+                                type="button" 
+                                routerLink="/admin/products/list" 
+                                class="btn theme-btn">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
                     </div>
                 </div>
             </form>
