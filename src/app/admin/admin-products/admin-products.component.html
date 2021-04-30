@@ -12,17 +12,17 @@
         </div>
     </form>
     <div *ngIf="filteredProducts.length; else NoData" class="table-responsive mt-5">
-        <table class="table table-striped">
+        <table class="table table-striped" matSort (matSortChange)="sortData($event)">
             <thead>
                 <tr>
                     <th>S.No</th>
-                    <th>Name</th>
-                    <th>Price</th>
+                    <th mat-sort-header="name">Name</th>
+                    <th mat-sort-header="price">Price</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of filteredProducts; let x = index;">
+                <tr *ngFor="let item of sortedData; let x = index;">
                     <td>{{ x+1 }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.price | currency: item.currency }}</td>

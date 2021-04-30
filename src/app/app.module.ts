@@ -38,6 +38,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {MatButtonModule} from '@angular/material/button';
     ReactiveFormsModule,
     NgSelectModule,
     MatTooltipModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSortModule
   ],
   // providers: [AngularFirestore],
   providers: [

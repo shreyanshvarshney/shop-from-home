@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Directive, Input, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductService } from './../../../service/product.service';
 import { AlertService } from 'src/service/alert.service';
+import { Sort, MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin-products',
@@ -14,6 +15,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   search: string;
   products: any = [];
   filteredProducts: any = [];
+  sortedData : any = [];
   subscription: Subscription;
 
   constructor(private productService: ProductService, 
@@ -27,7 +29,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   loadProducts() {
     this.subscription = this.productService.getAll()
     .subscribe((data) => {      
-      this.filteredProducts = this.products = data.map((value) => {
+      this.sortedData = this.filteredProducts = this.products = data.map((value) => {
         // console.log(value);
         const key = value?.payload?.key;
         const data: Object = value?.payload?.val();
@@ -38,7 +40,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
         };        
         return obj
       });
-      console.log(this.products);
+      // console.log(this.products);
     });
     
     
@@ -61,6 +63,34 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     });
   }
 
+  sortData(sort: Sort) {
+    const data = this.sortedData.slice();
+
+    // Condition to arrange the data as Default or coming from sever.
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = this.filteredProducts;
+      return;
+    }
+    // console.log(sort);
+    // console.log(data);
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      // console.log(isAsc)
+      // console.log(a,b);
+      
+      switch (sort.active) {
+        case 'name': return this.compare(a?.title, b?.title, isAsc);
+        case 'price': return this.compare(a?.price, b?.price, isAsc);
+        default: return 0;
+      }
+    });
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
   // Implementing Client-side Searching.
   filter() {
     let query: string = this.search;
@@ -68,6 +98,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       return value.title.toLowerCase().includes(query.toLowerCase());
     }) : this.products;
     // console.log(this.filteredProducts);
+    this.sortedData = this.filteredProducts;
   }
 
   ngOnDestroy(): void {
