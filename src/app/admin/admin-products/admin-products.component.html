@@ -11,7 +11,7 @@
             <input (keyup)="filter()" [(ngModel)]="search" type="text" name="search" id="search" class="form-control" placeholder="Search products...">
         </div>
     </form>
-    <div *ngIf="filteredProducts.length; else NoData" class="table-responsive mt-5">
+    <div *ngIf="filteredProducts?.length; else NoData" class="table-responsive mt-5">
         <table class="table table-striped" matSort (matSortChange)="sortData($event)">
             <thead>
                 <tr>
@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of sortedData; let x = index;">
-                    <td>{{ x+1 }}</td>
+                    <td>{{ (pageEvent.pageIndex*pageEvent.pageSize) + (x+1) }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.price | currency: item.currency }}</td>
                     <td>
@@ -42,5 +42,9 @@
     <ng-template #NoData>
         <p class="mt-5 text-center text-muted">Product not available.</p>
     </ng-template>
-
+    <mat-paginator [length]="pageEvent.length"
+    [pageSize]="pageEvent.pageSize"
+    [pageSizeOptions]="[10]"
+    (page)="loadPage($event)">
+    </mat-paginator>
 </div>

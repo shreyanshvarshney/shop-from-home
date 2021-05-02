@@ -39,6 +39,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import {MatSortModule} from '@angular/material/sort';
     NgSelectModule,
     MatTooltipModule,
     MatButtonModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule
   ],
   // providers: [AngularFirestore],
   providers: [

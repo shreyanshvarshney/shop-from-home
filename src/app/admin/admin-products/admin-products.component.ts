@@ -3,7 +3,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductService } from './../../../service/product.service';
 import { AlertService } from 'src/service/alert.service';
+
 import { Sort, MatSort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+
+import { ProductDataModels } from './../../../data-models/ProductDataModels';
 
 @Component({
   selector: 'app-admin-products',
@@ -13,10 +17,22 @@ import { Sort, MatSort } from '@angular/material/sort';
 export class AdminProductsComponent implements OnInit, OnDestroy {
 
   search: string;
-  products: any = [];
-  filteredProducts: any = [];
-  sortedData : any = [];
+  products: ProductDataModels[];
+  filteredProducts: ProductDataModels[];
+  sortedData : ProductDataModels[];
   subscription: Subscription;
+  productsDataServer: any [];
+  productsLength: number;
+
+  pageEvent: PageEvent = {
+    pageIndex: 0,
+    pageSize: 10,
+    length: 0,
+    previousPageIndex: 0
+  };
+  lastElementKey: string;
+  firstElementKey: string;
+  keyDecrement: number = 0;
 
   constructor(private productService: ProductService, 
               private router: Router,
@@ -27,9 +43,22 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   loadProducts() {
-    this.subscription = this.productService.getAll()
-    .subscribe((data) => {      
-      this.sortedData = this.filteredProducts = this.products = data.map((value) => {
+    // Prevent data leak from this subscription later.
+    this.productService.getAll().subscribe((data) => {
+      console.log(data.length);
+      this.productsLength = data.length;
+    });
+    this.subscription = this.productService.getAllPagination(this.pageEvent.pageSize,this.pageEvent.pageIndex, this.pageEvent.previousPageIndex, this.lastElementKey, this.firstElementKey)
+    .subscribe((data) => {    
+      console.log(data);  
+
+      this.lastElementKey = data[data.length - 1 - this.keyDecrement]?.key;
+      this.firstElementKey = data[0]?.key;
+
+      console.log(this.lastElementKey);
+      console.log(this.firstElementKey);
+
+       this.productsDataServer = data.map((value) => {
         // console.log(value);
         const key = value?.payload?.key;
         const data: Object = value?.payload?.val();
@@ -40,7 +69,11 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
         };        
         return obj
       });
-      // console.log(this.products);
+
+
+      this.sortedData = this.filteredProducts = this.products = this.productsDataServer;
+      this.pageEvent.length = this.productsLength;
+      console.log(this.products);
     });
     
     
@@ -99,6 +132,18 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     }) : this.products;
     // console.log(this.filteredProducts);
     this.sortedData = this.filteredProducts;
+  }
+
+  loadPage(event: PageEvent) {
+    console.log(this.pageEvent);
+    if(this.pageEvent.pageSize > event?.pageSize) {
+      this.keyDecrement = this.pageEvent.pageIndex;
+      console.log(this.keyDecrement);
+      
+    }
+    this.pageEvent = event;
+    console.log(event);
+    this.loadProducts();
   }
 
   ngOnDestroy(): void {

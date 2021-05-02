@@ -12,6 +12,23 @@ export class ProductService {
   create(data: any) {
     return this.db.list('products').push(data);
   }
+  
+  getAllPagination(pageSize: number, pageIndex: number, previousPageIndex: number, lastElementKey: string, firstElementKey: string) {
+    return this.db.list('products', (ref: firebase.default.database.Reference) => {
+      if(pageIndex === 0) {
+        console.log('first');
+        return ref.orderByKey().limitToFirst(pageSize);
+      }
+      else if(pageIndex > previousPageIndex) {  
+        console.log('second');
+        return ref.orderByKey().startAfter(lastElementKey).limitToFirst(pageSize);
+      }
+      else if(pageIndex < previousPageIndex) {
+        console.log('third');
+        return ref.orderByKey().endBefore(firstElementKey).limitToLast(pageSize);
+      }
+    }).snapshotChanges();
+  }
 
   getAll() {
     return this.db.list('products').snapshotChanges();

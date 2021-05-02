@@ -68,15 +68,15 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div *ngIf="!product_key; else updateView" class="col-lg-2">
+                    <div *ngIf="!product_key; else updateView" class="col-2">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <ng-template #updateView>
-                        <div class="col-lg-2">
+                        <div class="col-2">
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </ng-template>
-                    <div class="col-lg-2">
+                    <div class="ml-5">
                         <button class="btn theme-btn"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
