@@ -49,7 +49,7 @@ export class AuthService implements OnInit {
 
   get userDetails$(): Observable<UserDataModels> {
     return this.user$.pipe(
-      switchMap((user) => {
+      switchMap((user: firebase.default.User) => {
         if(user) return this.userServie.getUser(user?.uid).valueChanges();
         else return of(null);
       })
