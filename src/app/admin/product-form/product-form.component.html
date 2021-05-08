@@ -68,22 +68,38 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-lg-2">
+                    <div *ngIf="!product_key; else updateView" class="col-2">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    <ng-template #updateView>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </ng-template>
+                    <div class="ml-5">
+                        <button class="btn theme-btn"
+                                matTooltip="Back to Products List"
+                                matTooltipPosition="below"
+                                matTooltipShowDelay="100"
+                                aria-label="Button that shows a previous page tooltip" 
+                                type="button" 
+                                routerLink="/admin/products/list">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
                     </div>
                 </div>
             </form>
-            <br>
-            <p>{{productForm.value | json}}</p>
         </div>
-        <div class="col-lg-6 align-self-center">
-            <div class="card" style="width: 100%">
-                <img class="card-img-top" src="{{ image_url.value }}" alt="Please enter all details">
+        <div class="col-lg-5 align-self-center offset-lg-1 preview-card">
+            <div *ngIf="title.value" class="card" style="width: 100%">
+                <img class="card-img-top" src="{{ image_url.value }}" alt="Product Image" (error)="imageErrorHandler($event)">
+                <!-- onerror="this.src='./../../../assets/img/default-product-image.png';" -->
+                <!-- Above is method of doing it without (error) event -->
                 <div class="card-body">
                   <h5 class="card-title d-inline-block align-content-center">{{title.value}}</h5>
                   <p *ngIf="productForm.controls.category.value" class="btn btn-primary btn-sm d-inline-block align-content-center ml-3"><i class="fa fa-tag"></i> {{category.value}}</p>
                   <p class="card-text">{{price.value | currency: currency.value}}</p>
-                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                  <!-- <a href="#" class="btn btn-primary">Details</a> -->
                 </div>
             </div>
         </div> 

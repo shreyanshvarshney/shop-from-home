@@ -121,7 +121,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.router.navigate(['/admin/products/list']);
     }
     else {
-      this.alertService.fireToast('error', 'Please fill the form correctly.');
+      this.alertService.fireToast('error', 'Please fill all the fields with valid information');
     }
   }
 
@@ -151,6 +151,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productForm.controls.image_url.setValue(this.productData?.image_url);
   }
 
+  imageErrorHandler(event) {
+    // console.log(event.target.src);
+    if(this.image_url.value) this.alertService.fireToast('error','Enable to fetch your given image');
+    event.target.src = './../../../assets/img/default-product-image.png';
+  }
+
   // defined getter functions for directly accessing the form fields in HTML template
   get title() {
     return this.productForm.controls.title; 
@@ -170,6 +176,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription1.unsubscribe();
-    this.subscription2.unsubscribe();
+    if(this.product_key && this.product_key !== '') {
+      this.subscription2.unsubscribe();
+    }
   }
 }
