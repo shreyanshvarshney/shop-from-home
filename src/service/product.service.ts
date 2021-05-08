@@ -12,6 +12,11 @@ export class ProductService {
   create(data: any) {
     return this.db.list('products').push(data);
   }
+
+  // getCount(): number {
+  //   let ref: firebase.default.database.Reference;
+  //   return ref.child('products').on("value",(a) => {return a.numChildren()});
+  // }
   
   getAllPagination(pageSize: number, pageIndex: number, previousPageIndex: number, lastElementKey: string, firstElementKey: string) {
     return this.db.list('products', (ref: firebase.default.database.Reference) => {
