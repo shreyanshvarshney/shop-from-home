@@ -25,6 +25,7 @@ import { OrderSuccessComponent } from './order-success/order-success.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import { ErrorComponent } from './error/error.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -54,7 +55,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CheckOutComponent,
     OrderSuccessComponent,
     MyOrdersComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

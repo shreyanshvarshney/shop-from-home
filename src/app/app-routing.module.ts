@@ -11,6 +11,7 @@ import { CheckOutComponent } from './check-out/check-out.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { ErrorComponent } from './error/error.component';
 
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminAuthGuard } from './../guards/admin-auth.guard';
@@ -67,6 +68,11 @@ const routes: Routes = [
     path: 'admin/orders',
     component: AdminOrdersComponent,
     canActivate: [AuthGuard, AdminAuthGuard]
+  },
+  {
+    path: '**',
+    // redirectTo: '404',
+    component: ErrorComponent 
   }
 ];
 
