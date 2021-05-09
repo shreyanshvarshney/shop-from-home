@@ -11,7 +11,7 @@
             <input (keyup)="filter()" [(ngModel)]="search" type="text" name="search" id="search" class="form-control" placeholder="Search products...">
         </div>
     </form>
-    <div *ngIf="filteredProducts?.length; else NoData" class="table-responsive mt-5">
+    <div *ngIf="sortedData?.length !== 0" class="table-responsive mt-5">
         <table class="table table-striped" matSort (matSortChange)="sortData($event)">
             <thead>
                 <tr>
@@ -39,10 +39,15 @@
             </tbody>
         </table>
     </div>
-    <ng-template #NoData>
-        <p class="mt-5 text-center text-muted">No product found</p>
-        <p class="mt-5 text-center text-muted">Try rephrasing your search</p>
-    </ng-template>
+    <div *ngIf="sortedData === undefined">
+        <p class="text-center text-muted">Loading...</p>
+    </div>
+    <div *ngIf="sortedData?.length === 0">
+        <div class="mt-5 text-center">
+            <img src="../../../assets/img/sfh-product-not-found.png" alt="Product Not Found Image">
+            <p class="mt-2 text-muted">Try rephrasing your search</p>
+        </div>
+    </div>
     <mat-paginator [length]="pageEvent.length"
     [pageSize]="pageEvent.pageSize"
     [pageSizeOptions]="[10]"

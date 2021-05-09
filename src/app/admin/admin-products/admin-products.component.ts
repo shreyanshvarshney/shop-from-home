@@ -19,7 +19,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   search: string;
   products: ProductDataModels[];
   filteredProducts: ProductDataModels[];
-  sortedData : ProductDataModels[];
+  sortedData: any;
   subscription: Subscription;
   productsDataServer: any [];
   productsLength: number;
