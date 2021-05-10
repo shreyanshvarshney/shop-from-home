@@ -11,6 +11,7 @@ import { AuthService } from './../service/auth.service';
 import { UserService } from './../service/user.service';
 import { CategoryService } from './../service/category.service';
 import { ProductService } from './../service/product.service';
+import { NavigationService } from './../service/navigation.service';
 import { AdminAuthGuard } from './../guards/admin-auth.guard';
 import { AuthGuard } from './../guards/auth.guard';
 
@@ -80,6 +81,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     UserService,
     CategoryService,
     ProductService,
+    NavigationService,
     AuthGuard,
     AdminAuthGuard
   ],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { NavigationService } from 'src/service/navigation.service';
 
 @Component({
   selector: 'app-error',
@@ -8,12 +8,14 @@ import { Location } from '@angular/common';
 })
 export class ErrorComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  previousUrl: string = "['/']";
 
-  ngOnInit(): void { }
+  constructor(public navigationService: NavigationService) { }
 
-  back() {
-    this.location.back();
+  ngOnInit(): void {
+    this.navigationService.prevUrl$.subscribe((prevUrl: string) => {
+      this.previousUrl = prevUrl;
+    });
   }
 
 }
