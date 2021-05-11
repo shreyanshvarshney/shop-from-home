@@ -67,26 +67,31 @@
                         <input formControlName="image_url" class="form-control" type="text" id="image_url" name="image_url">
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div *ngIf="!product_key; else updateView" class="col-2">
+                <div class="row-lg-6 mt-4">
+                    <div *ngIf="!product_key; else updateView">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                    <ng-template #updateView>
-                        <div class="col-2">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </ng-template>
-                    <div class="ml-5">
-                        <button class="btn theme-btn"
+                        <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
                                 matTooltipShowDelay="100"
                                 aria-label="Button that shows a previous page tooltip" 
                                 type="button" 
-                                routerLink="/admin/products/list">
+                                routerLink="/admin/products/list">   
                             <i class="fa fa-arrow-left"></i>
                         </button>
                     </div>
+                    <ng-template #updateView>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button class="btn theme-btn ml-4"
+                                matTooltip="Back to Products List"
+                                matTooltipPosition="below"
+                                matTooltipShowDelay="100"
+                                aria-label="Button that shows a previous page tooltip" 
+                                type="button" 
+                                routerLink="/admin/products/list">   
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                    </ng-template>
                 </div>
             </form>
         </div>
