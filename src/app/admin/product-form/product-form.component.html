@@ -81,7 +81,7 @@
                         </button>
                     </div>
                     <ng-template #updateView>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button [disabled]="productForm.pristine" type="submit" class="btn btn-primary">Update</button>
                         <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
