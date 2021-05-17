@@ -1,25 +1,12 @@
 <div class="row mt-4" *ngIf="!loading">
-    <div class="col-lg-3">
-        <div class="list-group m-auto col-lg-12 col-md-5 col-sm-5 col-5">
-            <button [class.active]="!category" class="list-group-item list-group-item-action" routerLink="/products"><b>All Categories</b></button>
-            <button *ngFor="let item of categories" routerLink="/products" [queryParams]="{category:item?.key}" routerLinkActive="active" type="button" class="list-group-item list-group-item-action">{{item?.name}}</button>
-        </div>
+    <div class="col-lg-3 mb-5">
+        <app-product-filter [category]="category"></app-product-filter>
     </div>
     <div class="col-lg-9">
         <div class="row">
             <ng-container *ngFor="let item of filteredProducts; let x = index">
-                <div class="col-lg-4 col-md-6 mb-5" >
-                    <div class="card m-auto" style="width: 14rem;">
-                        <img class="card-img-top" [src]="item?.image_url" alt="Card image cap">
-                        <div class="card-body">
-                          <h5 class="card-title">{{item?.title}}</h5>
-                          <p class="card-text">{{item?.price | currency: item?.currency}}</p>
-                          <button type="button" class="btn theme-btn btn-sm">Add to <i class="fa fa-cart-plus"></i></button>
-                        </div>
-                        <div class="card-footer">
-                            <span class="badge badge-primary">{{item?.category}}</span>
-                        </div>
-                    </div>
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <app-product-card [product]="item"></app-product-card>
                 </div>
             </ng-container>
         </div>

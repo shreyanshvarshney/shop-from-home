@@ -1,0 +1,9 @@
+.active {
+    background-color: var(--theme);
+    color: black;
+    border: 1px solid var(--theme);
+}
+
+.sticky-top {
+    z-index: 1;
+}
