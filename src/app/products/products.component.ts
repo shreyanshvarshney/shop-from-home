@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from './../../service/product.service';
 import { CategoryService } from './../../service/category.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -13,12 +14,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   filteredProducts: any = [];
   categories: any = [];
   loading: boolean = true;
+  category: string = '';
 
-  constructor(private productService: ProductService, private categoryService: CategoryService) { }
+  constructor(private productService: ProductService, private categoryService: CategoryService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
+    this.filterByQueryParams();
   }
 
   loadProducts() {
@@ -37,6 +40,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }));
       this.loading = false;
       // console.log(this.products);
+      this.filterByQueryParams();
+    });
+  }
+
+  filterByQueryParams() {
+    this.activatedRoute.queryParamMap
+    .subscribe((queryParams: ParamMap) => {
+      this.category = queryParams.get('category') || '';
+      if(this.category !== '') {
+        this.categoryFilter(this.category);
+      }
+      else {
+        this.filteredProducts = this.products;
+      }
     });
   }
 
@@ -58,7 +75,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   categoryFilter(category: string) {
-    this.filteredProducts = this.products.filter((value) => {
+    this.filteredProducts = this.products.filter((value: any) => {
       if(value?.category === category) return true;
     });
     // console.log(this.filteredProducts);
