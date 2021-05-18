@@ -10,5 +10,8 @@
                 </div>
             </ng-container>
         </div>
+        <div *ngIf="filteredProducts.length === 0">
+            <p>No products available for this category</p>
+        </div>
     </div>
 </div>
