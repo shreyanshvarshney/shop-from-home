@@ -7,11 +7,11 @@
     <div [ngbCollapse]="isMenuCollapsed" id="navbarsExampleDefault" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/shopping-cart" routerLinkActive="active" (click)="isMenuCollapsed = true">Shopping Cart</a>
+          <a class="nav-link" routerLink="/products" routerLinkActive="active" (click)="isMenuCollapsed = true"><span class="fa fa-delicious"></span> Products</a>
         </li>
         <li *ngIf="userDetails; else nonAuthorizedUser" ngbDropdown class="nav-item dropdown">
           <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="fa fa-user-circle"></span> {{ userDetails.name }}
+            <img class="profile-image" [src]="userDetails.profile_pic" alt="" width="20" height="auto"><span class="profile-name"> {{ userDetails.name }} </span><span class="fa fa-caret-down align-middle"></span>
           </a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
             <a ngbDropdownItem routerLink="/my-orders" (click)="isMenuCollapsed = true">My Orders</a>
@@ -23,9 +23,12 @@
         </li>
         <ng-template #nonAuthorizedUser>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="isMenuCollapsed = true">Login</a>
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="isMenuCollapsed = true"><span class="fa fa-sign-in"></span> Login</a>
           </li>
         </ng-template>
       </ul>
+      <div>
+        <button routerLink="/shopping-cart" type="button" class="btn theme-btn"><span class="fa fa-cart-arrow-down"></span> Cart <span class="badge badge-info">1</span></button>
+      </div>
     </div>
 </nav>
