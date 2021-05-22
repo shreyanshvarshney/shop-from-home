@@ -13,7 +13,11 @@ export class AlertService {
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
-      timer: 3000
+      timer: 2000,
+      customClass: {
+        container: 'swal-container-responsive',
+      },
+      
     });
     this.getAlert(toast, type, title);
   }

@@ -60,6 +60,15 @@ button:focus {outline:0;}
     .preview-card {
         margin-top: 3rem;
     }
+    
+    /* Alert Service Swal CSS starts */
+    .swal-container-responsive {
+        width: 50%;
+    }
+    .swal2-title {
+        font-size: 0.5em !important;
+    }
+    /* Alert Service Swal CSS ends */
 }
 /* Medium devices */
 @media (max-width: 991.98px) {
