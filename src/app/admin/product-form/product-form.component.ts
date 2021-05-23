@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from './../../../service/alert.service';
 import { CategoryService } from './../../../service/category.service';
 import { ProductService } from './../../../service/product.service';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-product-form',
@@ -22,9 +24,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   product_key: string;
   productData: any = {};
 
-  constructor(private fb: FormBuilder, 
+  imageChangedEvent: any;
+  croppedImage: any;
+  productImage = {name: '', file: null, url: ''};
+  imgSrcPreviewCard: string = '';
+
+  constructor(private fb: FormBuilder,
+              private modalService: NgbModal,
               private router: Router,
-              private alertService: AlertService, 
+              private alertService: AlertService,
               private categoryService: CategoryService,
               private productService: ProductService,
               private activatedRoute: ActivatedRoute) { 
@@ -57,6 +65,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       price: new FormControl('',[Validators.required, Validators.min(0)]),
       currency: new FormControl('INR',Validators.required),
       category: new FormControl('', [Validators.required]),
+      upload_type: new FormControl(''),
       image_url: new FormControl('')
     });
     // console.log(this.productForm);
@@ -108,7 +117,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
       else {
         // Creating this product in my Database.
-        this.productService.create(form.value)
+        const final_data = {
+          ...form.value,
+          date_created: new Date(),
+          date_updated: new Date()
+        };
+        this.productService.create(final_data)
         .then(() => {
           form.reset();
           this.alertService.fireToast('success', 'Product added successfully.');
@@ -153,8 +167,72 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   imageErrorHandler(event) {
     // console.log(event.target.src);
-    if(this.image_url.value) this.alertService.fireToast('error','Enable to fetch your given image');
+    if(this.image_url.value) {
+      this.alertService.fireToast('error','Enable to fetch your given image');
+    }
     event.target.src = './../../../assets/img/default-product-image.png';
+  }
+
+  fileChangeEvent(event, content) {
+    this.productForm.controls.image_url.setValue('');
+    const files = event.target.files;
+    if (files.length > 0) {
+      console.log(event.target.files[0]);
+      const ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'md',
+      };
+      this.imageChangedEvent = event;
+      console.log(event);
+      
+      this.modalService.open(content, ngbModalOptions);
+    }
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.imgSrcPreviewCard = event.base64;
+    const croppedImage = event.base64;
+    this.croppedImage = this.base64ToFile(croppedImage, this.imageChangedEvent.target.files[0].name);
+    console.log(this.croppedImage);
+  }
+
+  base64ToFile(data, filename) {
+    const arr = data.split(',');
+    const imageType = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type: imageType});
+  }
+
+  imageLoaded(image: HTMLImageElement) {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {
+    this.modalService.dismissAll();
+    this.alertService.fireToast('error', 'Image type not supported');
+  }
+
+  cropImage() {
+    this.productImage.file = this.croppedImage;
+    this.productImage.name = this.croppedImage.name;
+    console.log(this.productImage);
+    
+    this.modalService.dismissAll();
+    this.imageChangedEvent = null;
+  }
+
+  closeModal(modal: NgbActiveModal) {
+    modal.dismiss();
   }
 
   // defined getter functions for directly accessing the form fields in HTML template
@@ -169,6 +247,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
   get category() {
     return this.productForm.controls.category; 
+  }
+  get upload_type() {
+    return this.productForm.controls.upload_type; 
   }
   get image_url() {
     return this.productForm.controls.image_url; 

@@ -1,0 +1,32 @@
+.mat-radio-group {
+    padding: 0;
+}
+
+.card-img-top {
+    width: auto;
+    height: auto;
+}
+
+/* Modal CSS starts here */
+.modal-content {
+
+}
+.close {
+    color: #d9534f;
+}
+
+.modal-footer button {
+    color: black;
+    background-color: var(--theme);
+    border-color: var(--theme);
+}
+.modal-footer button:hover {
+    border-color: black;
+}
+
+.modal-footer button:active {
+    color: white;
+    background-color: #0275d8;
+    border-color: black;
+}
+/* Modal CSS ends here */
