@@ -176,6 +176,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   fileChangeEvent(event, content) {
     this.productForm.controls.image_url.setValue('');
     const files = event.target.files;
+    console.log(event.target.files);
+    
     if (files.length > 0) {
       console.log(event.target.files[0]);
       const ngbModalOptions: NgbModalOptions = {
@@ -184,9 +186,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         size: 'md',
       };
       this.imageChangedEvent = event;
-      console.log(event);
-      
       this.modalService.open(content, ngbModalOptions);
+    } else {
+      this.imgSrcPreviewCard = '';
     }
   }
 
