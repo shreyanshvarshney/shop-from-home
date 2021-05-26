@@ -30,3 +30,11 @@
     border-color: black;
 }
 /* Modal CSS ends here */
+
+/* loading spinner css starts here */
+mat-spinner {
+    display: inline-block;
+    margin-left: 1rem;
+    vertical-align: middle;
+}
+/* loading spinner css ends here */

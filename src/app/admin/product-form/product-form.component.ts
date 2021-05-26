@@ -8,6 +8,7 @@ import { CategoryService } from './../../../service/category.service';
 import { ProductService } from './../../../service/product.service';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ProductDataModels } from './../../../data-models/ProductDataModels';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
@@ -31,6 +32,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   productImage = {name: '', file: null, url: ''};
   imgSrcPreviewCard: string = '';
   downloadUrl: string;
+
+  loading: boolean = false;
 
   constructor(private fb: FormBuilder,
               private modalService: NgbModal,
@@ -106,6 +109,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   onSubmit(form: FormGroup) {
     if(form.valid) {
+      this.loading = true;
       console.log(form.value);
       if(form.controls.upload_type.value === 'upload') {
         this.uploadImage(form);
@@ -159,6 +163,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         fileRef.getDownloadURL().subscribe((url) => {
           this.downloadUrl = url;
           console.log(this.downloadUrl);
+          this.loading = false;
           this.addProduct(form);
         });
       })

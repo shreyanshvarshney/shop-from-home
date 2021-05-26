@@ -91,6 +91,7 @@
                                 routerLink="/admin/products/list">   
                             <i class="fa fa-arrow-left"></i>
                         </button>
+                        <span *ngIf="loading"><mat-spinner diameter="25"></mat-spinner></span>
                     </div>
                     <ng-template #updateView>
                         <button [disabled]="productForm.pristine" type="submit" class="btn btn-primary">Update</button>
@@ -103,11 +104,10 @@
                                 routerLink="/admin/products/list">   
                             <i class="fa fa-arrow-left"></i>
                         </button>
+                        <span *ngIf="loading"><mat-spinner diameter="25"></mat-spinner></span>
                     </ng-template>
                 </div>
             </form>
-            <br>
-            <p>{{productForm.value | json}}</p>
         </div>
         <div class="col-lg-5 align-self-center offset-lg-1 preview-card">
             <div *ngIf="title.value" class="card">
