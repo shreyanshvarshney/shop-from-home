@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase, private storage: AngularFireStorage) { }
 
   create(data: any) {
     return this.db.list('products').push(data);
@@ -50,5 +51,9 @@ export class ProductService {
 
   delete(key: string) {
     return this.db.list('products').remove(key);
+  }
+
+  uploadImage(filePath: string, file: File): AngularFireUploadTask {
+    return this.storage.upload(filePath, file);
   }
 }

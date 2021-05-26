@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -32,6 +32,7 @@ import { ProductCardComponent } from './products/product-card/product-card.compo
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 // For using Realtime Database in Firebase
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -44,6 +45,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS} from '@angular/material/radio';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +65,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ProductFormComponent,
     ErrorComponent,
     ProductFilterComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     NgbModule,
+    NgbModalModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -77,7 +84,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTooltipModule,
     MatButtonModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule,
+    ImageCropperModule
   ],
   // providers: [AngularFirestore],
   providers: [
@@ -87,7 +96,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ProductService,
     NavigationService,
     AuthGuard,
-    AdminAuthGuard
+    AdminAuthGuard,
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+    }
   ],
   bootstrap: [AppComponent]
 })

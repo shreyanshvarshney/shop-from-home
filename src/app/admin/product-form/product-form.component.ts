@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from './../../../service/alert.service';
 import { CategoryService } from './../../../service/category.service';
 import { ProductService } from './../../../service/product.service';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-product-form',
@@ -28,11 +30,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   croppedImage: any;
   productImage = {name: '', file: null, url: ''};
   imgSrcPreviewCard: string = '';
+  downloadUrl: string;
 
   constructor(private fb: FormBuilder,
               private modalService: NgbModal,
               private router: Router,
               private alertService: AlertService,
+              private storage: AngularFireStorage,
               private categoryService: CategoryService,
               private productService: ProductService,
               private activatedRoute: ActivatedRoute) { 
@@ -103,40 +107,92 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   onSubmit(form: FormGroup) {
     if(form.valid) {
       console.log(form.value);
-
-      if(this.product_key && this.product_key !== '') {
-        // Update this product in my Database.
-        this.productService.update(this.product_key, form.value)
-        .then(() => {
-          this.alertService.fireToast('success', 'Product updated successfully.');
-        })
-        .catch((reason) => {
-          console.log(reason);
-          this.alertService.fireToast('error', 'Some error occurred.');
-        });
+      if(form.controls.upload_type.value === 'upload') {
+        this.uploadImage(form);
       }
-      else {
-        // Creating this product in my Database.
-        const final_data = {
-          ...form.value,
-          date_created: new Date(),
-          date_updated: new Date()
-        };
-        this.productService.create(final_data)
-        .then(() => {
-          form.reset();
-          this.alertService.fireToast('success', 'Product added successfully.');
-        })
-        .catch((reason) => {
-          console.log(reason);
-          this.alertService.fireToast('error', 'Some error occurred.');
-        });
-      }
-      this.router.navigate(['/admin/products/list']);
+      this.addProduct(form);
     }
     else {
       this.alertService.fireToast('error', 'Please fill all the fields with valid information');
     }
+  }
+
+  addProduct(form: FormGroup) {
+    if(this.product_key && this.product_key !== '') {
+      // Update this product in my Database.
+      const final_data = this.prepareAttributes(form.value);
+      this.productService.update(this.product_key, final_data)
+      .then(() => {
+        this.alertService.fireToast('success', 'Product updated successfully.');
+      })
+      .catch((reason) => {
+        console.log(reason);
+        this.alertService.fireToast('error', 'Some error occurred.');
+      });
+    }
+    else {
+      // Creating this product in my Database.
+      const final_data = this.prepareAttributes(form.value);
+      this.productService.create(final_data)
+      .then(() => {
+        form.reset();
+        this.alertService.fireToast('success', 'Product added successfully.');
+      })
+      .catch((reason) => {
+        console.log(reason);
+        this.alertService.fireToast('error', 'Some error occurred.');
+      });
+    }
+    this.router.navigate(['/admin/products/list']);
+  }
+
+  uploadImage(form: FormGroup) {
+    const url = 'products/' + (new Date().getTime() + '_' + this.productImage.name);
+    this.productImage.url = url;
+    console.log(url);
+    const fileRef = this.storage.ref(url);
+    // this.productService.uploadImage(url, this.productImage.file).snapshotChanges()
+    // .subscribe(data => console.log(data.ref.getDownloadURL().then(url => {console.log(url)})));
+    this.productService.uploadImage(url, this.productImage.file).snapshotChanges()
+    .pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+          this.downloadUrl = url;
+          console.log(this.downloadUrl);
+          this.addProduct(form);
+        });
+      })
+    ).subscribe();
+  }
+
+  prepareAttributes(data) {
+    let image_url = '';
+    if(this.productForm.controls.upload_type.value === 'upload') {
+      image_url = this.downloadUrl;
+    } else {
+      image_url = data.image_url;
+    }
+    if(this.product_key && this.product_key !== '') {
+      return {
+        title: data.title,
+        image_url: image_url,
+        price: data.price,
+        category: data.category,
+        currency: data.currency,
+        upload_type: data.upload_type,
+        date_updated: new Date().toString(),
+      };
+    }
+    return {
+      title: data.title,
+      image_url: image_url,
+      price: data.price,
+      category: data.category,
+      currency: data.currency,
+      upload_type: data.upload_type,
+      date_created: new Date().toString(),
+      date_updated: new Date().toString(),
+    };
   }
 
   loadProductData() {
@@ -196,7 +252,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.imgSrcPreviewCard = event.base64;
     const croppedImage = event.base64;
     this.croppedImage = this.base64ToFile(croppedImage, this.imageChangedEvent.target.files[0].name);
-    console.log(this.croppedImage);
+    this.productImage.file = this.croppedImage;
+    console.log(this.productImage.file);
   }
 
   base64ToFile(data, filename) {
