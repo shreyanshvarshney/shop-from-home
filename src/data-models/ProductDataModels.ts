@@ -9,5 +9,8 @@ export interface ProductDataModels {
     price: number,
     currency: string,
     category: string,
-    image_url: string
+    image_url: string,
+    upload_type: string,
+    date_created: string,
+    date_updated: string
 }
