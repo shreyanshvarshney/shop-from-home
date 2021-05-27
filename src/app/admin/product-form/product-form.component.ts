@@ -223,7 +223,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productForm.controls.currency.setValue(this.productData?.currency);
     this.productForm.controls.price.setValue(this.productData?.price);
     this.productForm.controls.category.setValue(this.productData?.category);
-    this.productForm.controls.image_url.setValue(this.productData?.image_url);
+    if (this.productData?.upload_type === 'upload') {
+      this.productForm.controls.upload_type.setValue('upload');
+      this.imgSrcPreviewCard = this.productData?.image_url;
+    } else {
+      this.productForm.controls.upload_type.setValue('url');
+      this.productForm.controls.image_url.setValue(this.productData?.image_url);
+    }
   }
 
   imageErrorHandler(event) {
