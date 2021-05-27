@@ -81,7 +81,7 @@
                 </div>
                 <div class="row-lg-6 mt-4">
                     <div *ngIf="!product_key; else updateView">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button [disabled]="loading" type="submit" class="btn btn-primary">Submit</button>
                         <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
@@ -94,7 +94,7 @@
                         <span *ngIf="loading"><mat-spinner diameter="25"></mat-spinner></span>
                     </div>
                     <ng-template #updateView>
-                        <button [disabled]="productForm.pristine" type="submit" class="btn btn-primary">Update</button>
+                        <button [disabled]="productForm.pristine || loading" type="submit" class="btn btn-primary">Update</button>
                         <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"

@@ -11,5 +11,5 @@
 
 /* Removing the default arrow/caret down of bootstrap */
 .dropdown-toggle::after {
-    display:none;
+    display: none;
 }
