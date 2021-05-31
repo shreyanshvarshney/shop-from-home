@@ -35,6 +35,7 @@ button:focus {outline:0;}
     justify-content: space-between;
     padding: .5rem 1rem;
     border-bottom: 2px solid #e1efff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 15px 0px, rgba(0, 0, 0, 0.05) 0px 0px 6px 0px;
 }
   
 /* @media screen and (min-width: 768px) {
