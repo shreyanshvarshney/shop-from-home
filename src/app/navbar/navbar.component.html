@@ -18,7 +18,7 @@
             <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/orders" (click)="isMenuCollapsed = true">Manage Orders</a>
             <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/products/list" (click)="isMenuCollapsed = true">Manage Products</a>
             <li><hr class="dropdown-divider"></li>
-            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
+            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><img src="../../assets/img/logout.svg" alt="" width="14.86px" height="auto"> Logout</a>
           </div>
         </li>
         <ng-template #nonAuthorizedUser>
