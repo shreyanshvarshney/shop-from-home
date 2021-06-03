@@ -69,7 +69,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   async loadCartData() {
     this.subscription = (await this.cartService.getCartRef()).snapshotChanges().subscribe((data) => {
       this.cartData = data?.payload?.val();
-      console.log(this.cartData);
+      // console.log(this.cartData);
     });
   }
 

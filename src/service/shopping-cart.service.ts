@@ -23,7 +23,7 @@ export class ShoppingCartService {
   }
 
   private getItemRef(cartId: string, productId: string) {
-    return this.db.object('shopping-carts/' + cartId + '/items/' + productId)
+    return this.db.object('shopping-carts/' + cartId + '/items/' + productId);
   }
 
   private async getOrCreateId(): Promise<string> {
@@ -33,7 +33,7 @@ export class ShoppingCartService {
     } else {
       const response = await this.create();
       window.localStorage.setItem('cartId',response?.key);
-      return response?.key
+      return response?.key;
     }
   }
 
@@ -45,9 +45,24 @@ export class ShoppingCartService {
       take(1)
     ).subscribe((data) => {
       if(data.payload.exists()) {
-        item$.update({quantity: data?.payload.val()['quantity'] + 1})
+        item$.update({quantity: data?.payload.val()['quantity'] + 1});
       } else {
-        item$.set({product: product, quantity: 1})
+        item$.set({product: product, quantity: 1});
+      }
+    });
+  }
+
+  async removeProductFromCart(product: ProductDataModels) {
+    const cartId: string = await this.getOrCreateId();
+    const item$ = this.getItemRef(cartId,product?.key);
+    item$.snapshotChanges().pipe(
+      take(1)
+    ).subscribe((data) => {
+      // Will work with only statement this also.
+      // item$.update({quantity: data?.payload.val()['quantity'] - 1});
+      // But added this check for more assurance.
+      if(data.payload.exists()) {
+        item$.update({quantity: data?.payload.val()['quantity'] - 1});
       }
     });
   }

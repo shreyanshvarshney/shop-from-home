@@ -19,12 +19,18 @@ import { ShoppingCartService } from './../../../service/shopping-cart.service';
         style({opacity: 0}),
         animate(200)
       ])
+    ]),
+    trigger('fadeIn500ms', [
+      transition('void => *', [
+        style({opacity: 0}),
+        animate(500)
+      ])
     ])
   ]
 })
 export class ProductCardComponent implements OnInit {
 
-  @Input('product') product;
+  @Input('product') product: ProductDataModels;
   @Input('cart-data') cartData;
 
   constructor(private cartService :ShoppingCartService) { }
@@ -32,9 +38,13 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addToCart(product: ProductDataModels) {
-    this.cartService.addProductToCart(product);
-    console.log(product);
+  addToCart() {
+    this.cartService.addProductToCart(this.product);
+    // console.log(this.product);
+  }
+
+  removeFromCart() {
+    this.cartService.removeProductFromCart(this.product);
   }
 
   getQuantity(): number {
