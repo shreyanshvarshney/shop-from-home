@@ -12,5 +12,8 @@ export interface ProductDataModels {
     image_url: string,
     upload_type: string,
     date_created: string,
-    date_updated: string
+    date_updated: string,
+
+    //Not in db
+    key: string
 }
