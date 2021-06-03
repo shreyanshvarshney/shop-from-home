@@ -39,10 +39,7 @@ export class ProductCardComponent implements OnInit {
 
   getQuantity(): number {
     if(!this.cartData) return 0;
-    if (this.cartData?.items[this.product.key]) {
-      return this.cartData?.items[this.product.key]?.quantity;
-    }
-    return 0
+    return this.cartData?.items[this.product.key] ? this.cartData?.items[this.product.key]?.quantity : 0
   }
 
 }
