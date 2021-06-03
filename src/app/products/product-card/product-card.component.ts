@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
+import { ProductDataModels } from './../../../data-models/ProductDataModels';
+import { ShoppingCartService } from './../../../service/shopping-cart.service';
+
+
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
@@ -21,10 +25,24 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class ProductCardComponent implements OnInit {
 
   @Input('product') product;
+  @Input('cart-data') cartData;
 
-  constructor() { }
+  constructor(private cartService :ShoppingCartService) { }
 
   ngOnInit(): void {
+  }
+
+  addToCart(product: ProductDataModels) {
+    this.cartService.addProductToCart(product);
+    console.log(product);
+  }
+
+  getQuantity(): number {
+    if(!this.cartData) return 0;
+    if (this.cartData?.items[this.product.key]) {
+      return this.cartData?.items[this.product.key]?.quantity;
+    }
+    return 0
   }
 
 }

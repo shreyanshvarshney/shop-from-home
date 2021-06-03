@@ -12,6 +12,7 @@ import { UserService } from './../service/user.service';
 import { CategoryService } from './../service/category.service';
 import { ProductService } from './../service/product.service';
 import { NavigationService } from './../service/navigation.service';
+import { ShoppingCartService } from './../service/shopping-cart.service';
 import { AdminAuthGuard } from './../guards/admin-auth.guard';
 import { AuthGuard } from './../guards/auth.guard';
 
@@ -97,6 +98,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CategoryService,
     ProductService,
     NavigationService,
+    ShoppingCartService,
     AuthGuard,
     AdminAuthGuard,
     {

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from './../../service/product.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ShoppingCartService } from './../../service/shopping-cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -13,12 +15,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   filteredProducts: any = [];
   loading: boolean = true;
   category: string = '';
+  cartData: any;
+  subscription: Subscription;
 
-  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) { }
+  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute, private cartService: ShoppingCartService ) { }
 
   ngOnInit(): void {
     this.loadProducts();
     this.filterByQueryParams();
+    this.loadCartData();
   }
 
   loadProducts() {
@@ -61,7 +66,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
     // console.log(this.filteredProducts);
   }
 
+  async loadCartData() {
+    this.subscription = (await this.cartService.getCartRef()).snapshotChanges().subscribe((data) => {
+      this.cartData = data?.payload?.val();
+      console.log(this.cartData);
+    });
+  }
+
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
