@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthService } from './../../service/auth.service';
 import { AlertService } from './../../service/alert.service';
 import { UserService } from './../../service/user.service';
-import { Router } from '@angular/router';
+import { ShoppingCartService } from './../../service/shopping-cart.service';
 
 import { UserDataModels } from './../../data-models/UserDataModels';
 
@@ -18,9 +19,12 @@ export class NavbarComponent implements OnInit {
   userDetails: UserDataModels;
   isMenuCollapsed: boolean = true;
 
+  cartQuantity: number = 0;
+
   constructor(private auth: AuthService, 
               private router: Router, 
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private cartService: ShoppingCartService) { }
 
   ngOnInit(): void {
     // authState returns an Observable which contains user auth details.
@@ -40,6 +44,8 @@ export class NavbarComponent implements OnInit {
       this.userDetails = data;
       console.log(this.userDetails);
     });    
+
+    this.calculateCartItems();
   }
 
   // formatUserData(data) {
@@ -60,6 +66,21 @@ export class NavbarComponent implements OnInit {
     },
     (reason) => {
       console.log(reason);    
+    });
+  }
+
+  async calculateCartItems() {
+    const cart = await this.cartService.getCartRef();
+    // As I have subscribed to the cart service so everytime their is a change in cartData or I update the cart quantity from ui, 
+    // lines 78 80 81 will be re-executed and will update the cart quantity items in navbar.
+    cart.snapshotChanges().subscribe((data) => {
+      // console.log(data.payload.val()['items'])
+      this.cartQuantity = 0;
+      // Iterating the Object
+      for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
+        this.cartQuantity += value['quantity']
+        // console.log(value);
+      }
     });
   }
 
