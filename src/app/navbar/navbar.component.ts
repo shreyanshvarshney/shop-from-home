@@ -76,6 +76,8 @@ export class NavbarComponent implements OnInit {
     cart.snapshotChanges().subscribe((data) => {
       // console.log(data.payload.val()['items'])
       this.cartQuantity = 0;
+      // A check when the cart is empty so their will be no cartRef in the database.
+      if(!data?.key) return;
       // Iterating the Object
       for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
         this.cartQuantity += value['quantity']
