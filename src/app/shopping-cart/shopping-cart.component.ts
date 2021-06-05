@@ -14,15 +14,17 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadShoppingCartData();
-    console.log(this.shoppingCartData);
+    // console.log(this.shoppingCartData);
   }
 
   async loadShoppingCartData() {
     let cart = await this.cartService.getCartRef();
     cart.snapshotChanges().subscribe(data => {
-      console.log(data?.payload?.val()['items']);
+      // console.log(data?.payload?.val()['items']);
+      // A check when the cart is empty so their will be no cartRef in the database.
+      if(!data?.key) return;
       for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
-        console.log(key,value);
+        // console.log(key,value);
         let obj = {
           key: key,
           quantity: value?.['quantity'],
@@ -30,7 +32,7 @@ export class ShoppingCartComponent implements OnInit {
         }
         this.shoppingCartData.push(obj);
       }
-      console.log(this.shoppingCartData);
+      // console.log(this.shoppingCartData);
     });
   }
 
