@@ -44,7 +44,9 @@ export class ShoppingCartService {
       take(1)
     ).subscribe((data) => {
       if(data.payload.exists()) {
-        item$.update({quantity: data?.payload.val()['quantity'] + change});
+        let quantity = data?.payload.val()['quantity'] + change;
+        if(quantity === 0) item$.remove();
+        else item$.update({quantity: quantity});
       } else {
         item$.set({product: product, quantity: 1});
       }
@@ -52,11 +54,11 @@ export class ShoppingCartService {
   }
 
   // Model of cart: carts -> cardId -> items -> (productId -> product details, quantity)...
-  async addProductToCart(product: ProductDataModels) {
+  addProductToCart(product: ProductDataModels) {
     this.updateItemQuantity(product,1);
   }
 
-  async removeProductFromCart(product: ProductDataModels) {
+  removeProductFromCart(product: ProductDataModels) {
     this.updateItemQuantity(product,-1);
     // const cartId: string = await this.getOrCreateId();
     // const item$ = this.getItemRef(cartId,product?.key);
