@@ -9,6 +9,7 @@ import { ShoppingCartService } from './../../service/shopping-cart.service';
 export class ShoppingCartComponent implements OnInit {
 
   shoppingCartData: any = [];
+  loading: boolean = false;
 
   constructor(private cartService: ShoppingCartService) { }
 
@@ -18,11 +19,15 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   async loadShoppingCartData() {
+    this.loading = true;
     let cart = await this.cartService.getCartRef();
     cart.snapshotChanges().subscribe(data => {
       // console.log(data?.payload?.val()['items']);
       // A check when the cart is empty so their will be no cartRef in the database.
-      if(!data?.key) return;
+      if(!data?.key) {
+        this.loading = false;
+        return;
+      }
       for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
         // console.log(key,value);
         let obj = {
@@ -32,6 +37,7 @@ export class ShoppingCartComponent implements OnInit {
         }
         this.shoppingCartData.push(obj);
       }
+      this.loading = false;
       // console.log(this.shoppingCartData);
     });
   }

@@ -1,4 +1,4 @@
-<div class="mt-4" *ngIf="shoppingCartData.length!==0; else loadingSpinner;">
+<div class="mt-4" *ngIf="shoppingCartData.length!==0">
     <div class="card">
         <div class="card-header">
             <h5 class="mb-1 mt-1">Shopping Cart</h5>
@@ -39,8 +39,11 @@
         </div>
     </div>
 </div>
-<ng-template #loadingSpinner>
+<div *ngIf="shoppingCartData.length===0 && !loading">
+    <p>Cart empty.</p>
+</div>
+<div *ngIf="loading">
     <div class="text-center mt-4">
         <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
-</ng-template>
+</div>
