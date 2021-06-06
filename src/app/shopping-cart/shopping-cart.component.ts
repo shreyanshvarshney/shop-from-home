@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ShoppingCartService } from './../../service/shopping-cart.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class ShoppingCartComponent implements OnInit {
   shoppingCartData: any = [];
   loading: boolean = false;
 
-  constructor(private cartService: ShoppingCartService) { }
+  constructor(private cartService: ShoppingCartService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadShoppingCartData();
@@ -25,6 +26,7 @@ export class ShoppingCartComponent implements OnInit {
       // console.log(data?.payload?.val()['items']);
       // A check when the cart is empty so their will be no cartRef in the database.
       if(!data?.key) {
+        this.shoppingCartData = [];
         this.loading = false;
         return;
       }
@@ -56,6 +58,10 @@ export class ShoppingCartComponent implements OnInit {
       quantity += this.shoppingCartData[i]?.quantity;
     }
     return quantity;
+  }
+
+  async clearCart() {
+    this.cartService.clearCart();
   }
 
 }

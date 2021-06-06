@@ -17,11 +17,6 @@ export class ShoppingCartService {
     });
   }
 
-  async getCartRef() {
-    let cartId = await this.getOrCreateId();
-    return this.db.object('shopping-carts/' + cartId);
-  }
-
   private getItemRef(cartId: string, productId: string) {
     return this.db.object('shopping-carts/' + cartId + '/items/' + productId);
   }
@@ -51,6 +46,16 @@ export class ShoppingCartService {
         item$.set({product: product, quantity: 1});
       }
     });
+  }
+
+  async getCartRef() {
+    let cartId = await this.getOrCreateId();
+    return this.db.object('shopping-carts/' + cartId);
+  }
+
+  async clearCart() {
+    const cartId = await this.getOrCreateId();
+    this.db.object('shopping-carts/' + cartId + '/items').remove();
   }
 
   // Model of cart: carts -> cardId -> items -> (productId -> product details, quantity)...
