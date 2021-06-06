@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ShoppingCartService } from './../../service/shopping-cart.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class ShoppingCartComponent implements OnInit {
   shoppingCartData: any = [];
   loading: boolean = false;
 
-  constructor(private cartService: ShoppingCartService, private router: Router) { }
+  constructor(private cartService: ShoppingCartService) { }
 
   ngOnInit(): void {
     this.loadShoppingCartData();
