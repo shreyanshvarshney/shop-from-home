@@ -8,7 +8,6 @@ import { ShoppingCartService } from './../../service/shopping-cart.service';
 
 import { UserDataModels } from './../../data-models/UserDataModels';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
