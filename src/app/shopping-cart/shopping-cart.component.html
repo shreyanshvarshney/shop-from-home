@@ -21,7 +21,11 @@
                             <td>{{x+1}}</td>
                             <td><img class="rounded-circle product-img" width="100px" height="auto" [src]="item?.image_url" alt="Product Image"></td>
                             <td>{{item?.title}}</td>
-                            <td>{{item?.quantity}}</td>
+                            <td>
+                                <button (click)="addToCart(item)" class="btn theme-btn btn-sm"> <span class="fa fa-plus"></span></button>
+                                <span class="ml-2 mr-2">{{ getQuantity(item) }} in cart</span>
+                                <button (click)="removeFromCart(item)" class="btn theme-btn btn-sm"> <span class="fa fa-minus"></span></button>
+                            </td>
                             <td>{{item?.price | currency: item?.currency}}</td>
                         </tr>
                     </tbody>

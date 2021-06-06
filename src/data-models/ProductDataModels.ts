@@ -16,4 +16,5 @@ export interface ProductDataModels {
 
     //Not in db
     key: string
+    quantity: number
 }

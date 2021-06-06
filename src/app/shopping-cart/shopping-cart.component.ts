@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from './../../service/shopping-cart.service';
 
+import { ProductDataModels } from './../../data-models/ProductDataModels';
+
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -29,6 +31,7 @@ export class ShoppingCartComponent implements OnInit {
         this.loading = false;
         return;
       }
+      this.shoppingCartData = [];
       for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
         // console.log(key,value);
         let obj = {
@@ -59,8 +62,27 @@ export class ShoppingCartComponent implements OnInit {
     return quantity;
   }
 
-  async clearCart() {
+  // This function can be replaced by getQuantity() function in product-card component
+  // This function is returning the quantity of a single product in a cart.
+  getQuantity(product: ProductDataModels): number {
+    if(this.shoppingCartData.length === 0) return 0;
+    for (let i = 0; i < this.shoppingCartData.length; i++) {
+      if(this.shoppingCartData[i].quantity === product?.quantity) return product?.quantity;
+    }
+  }
+
+  clearCart() {
     this.cartService.clearCart();
+  }
+
+  //Repeat Function
+  addToCart(product: ProductDataModels) {
+    this.cartService.addProductToCart(product);
+  }
+
+  //Repeat Function
+  removeFromCart(product: ProductDataModels) {
+    this.cartService.removeProductFromCart(product);
   }
 
 }
