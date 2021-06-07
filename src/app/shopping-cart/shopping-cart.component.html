@@ -31,11 +31,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Subtotal ({{ calculateTotalQuantity() }} item<span *ngIf="calculateTotalQuantity() !== 1">s</span>): <b>{{ calculateTotalAmount() | currency:"INR" }}</b></td>
+                            <td colspan="5">Subtotal ({{ calculateTotalQuantity() }} item<span *ngIf="calculateTotalQuantity() !== 1">s</span>): <b>{{ calculateTotalAmount() | currency:"INR" }}</b></td>
                         </tr>
                     </tfoot>
                 </table>
