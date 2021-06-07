@@ -82,11 +82,11 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/products/update', key]);
   }
 
-  deleteProduct(key: string) {
+  deleteProduct(product: ProductDataModels) {
     // if user clicks the cancel button we will simply return from the delete function.
     if (!window.confirm('Are you sure you want to delete this product?')) return;
 
-    this.productService.delete(key)
+    this.productService.delete(product.key)
     .then(() => {
       this.alertService.fireToast('success', 'Product deleted successfully.');
     })
@@ -94,6 +94,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       console.log(reason);
       this.alertService.fireToast('error', 'Some error occurred.');
     });
+    if (product.upload_type === 'upload') {
+      this.productService.deleteImage(product.image_url);
+    }
   }
 
   sortData(sort: Sort) {

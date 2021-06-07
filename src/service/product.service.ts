@@ -54,4 +54,8 @@ export class ProductService {
   uploadImage(filePath: string, file: File): AngularFireUploadTask {
     return this.storage.upload(filePath, file);
   }
+
+  deleteImage(filePath: string) {
+    return this.storage.storage.refFromURL(filePath).delete();
+  }
 }
