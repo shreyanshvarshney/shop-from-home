@@ -31,19 +31,33 @@ export class ShoppingCartComponent implements OnInit {
         this.loading = false;
         return;
       }
-      this.shoppingCartData = [];
-      for (const [key, value] of Object.entries(data?.payload?.val()['items'])) {
-        // console.log(key,value);
-        const obj = {
-          key: key,
-          quantity: value?.['quantity'],
-          ...value?.['product']
-        };
-        this.shoppingCartData.push(obj);
-      }
+      this.formatShoppingCartData(data?.payload?.val());
+      // this.shoppingCartData = [];
+      // for (const [key, value] of Object.entries(data?.payload?.val()['items'])) {
+      //   // console.log(key,value);
+      //   const obj = {
+      //     key: key,
+      //     quantity: value?.['quantity'],
+      //     ...value?.['product']
+      //   };
+      //   this.shoppingCartData.push(obj);
+      // }
       this.loading = false;
       // console.log(this.shoppingCartData);
     });
+  }
+
+  formatShoppingCartData(data: any) {
+    this.shoppingCartData = [];
+    for (const [key, value] of Object.entries(data?.items)) {
+      const obj = {
+        key: key,
+        // quantity: (<any>value).quantity,
+        quantity: (value as any).quantity,
+        ...(<any>value).product
+      };
+      this.shoppingCartData.push(obj);
+    }
   }
 
   calculateTotalAmount(): number {

@@ -79,8 +79,8 @@ export class NavbarComponent implements OnInit {
       // A check when the cart is empty so their will be no cartRef in the database.
       if (!data?.key) return;
       // Iterating the Object
-      for (const [key, value] of Object.entries(data?.payload?.val()['items'])) {
-        this.cartQuantity += value['quantity'];
+      for (const [key, value] of Object.entries((<any>data?.payload?.val()).items)) {
+        this.cartQuantity += (value as any).quantity;
         // console.log(value);
       }
     });

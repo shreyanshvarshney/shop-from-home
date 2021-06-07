@@ -48,7 +48,6 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS} from '@angular/material/radio';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { TestComponent } from './test/test.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
@@ -67,8 +66,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ProductFormComponent,
     ErrorComponent,
     ProductFilterComponent,
-    ProductCardComponent,
-    TestComponent
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,

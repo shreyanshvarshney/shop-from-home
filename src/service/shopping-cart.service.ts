@@ -39,7 +39,8 @@ export class ShoppingCartService {
       take(1)
     ).subscribe((data) => {
       if (data.payload.exists()) {
-        const quantity = data?.payload.val()['quantity'] + change;
+        // const quantity = data?.payload.val()['quantity'] + change;
+        const quantity = (data?.payload.val() as any).quantity + change;
 
         if (quantity === 0) item$.remove();
         else item$.update({quantity: quantity});
