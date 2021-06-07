@@ -28,7 +28,7 @@ export class ProductFilterComponent implements OnInit {
           key: key,
           ...data
         };
-        return obj
+        return obj;
       });
       // console.log(this.categories);
     });

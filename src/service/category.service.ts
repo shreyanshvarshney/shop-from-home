@@ -11,7 +11,7 @@ export class CategoryService {
 
   getAll() {
     return this.db.list('categories', (ref: firebase.default.database.Reference) => {
-      return ref.orderByChild('name')
+      return ref.orderByChild('name');
     }).snapshotChanges();
   }
 

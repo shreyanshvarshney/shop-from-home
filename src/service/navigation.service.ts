@@ -15,7 +15,7 @@ export class NavigationService {
   public prevUrl$: Observable<string> = this.prevUrl.asObservable();
 
   constructor(private router: Router) {
-    // Here I am piping the Observable by using filter() rxjs method 
+    // Here I am piping the Observable by using filter() rxjs method
     // to filter out only those events with NavigationEnd and then finally subscribing to the event.
 
     router.events.pipe(

@@ -14,9 +14,9 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   returnUrl: string;
 
-  constructor(public auth: AuthService, 
+  constructor(public auth: AuthService,
               // auth instance is public member because i am using it in my html template.
-              private router: Router, 
+              private router: Router,
               private alertService: AlertService,
               private userService: UserService,
               private activatedRoute: ActivatedRoute) {
@@ -25,27 +25,28 @@ export class LoginComponent implements OnInit {
                  console.log(queryParams);
                  this.returnUrl = queryParams.returnUrl || '/';
                 //  console.log(this.returnUrl);
-               }); 
+               });
               // I can use LocalStorage to store the query params if they are lost due to routing.
-              // Here I can also use "snapshot" because I dont have navigation buttons like previous and next on my Login page so route parameters will not change with a single instance of the Login Component in the DOM. And in snapshot I dont need to subscribe to an Observale.
+              // Here I can also use "snapshot" because I dont have navigation buttons like previous and
+              // next on my Login page so route parameters will not change with a single instance of the Login Component in the DOM.
+              // And in snapshot I dont need to subscribe to an Observale.
               // this.returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
               }
 
   ngOnInit(): void {
     this.loading = true;
     this.auth.getRedirectResult()
-    .then((result) => {      
+    .then((result) => {
       console.log(result);
-      if(result.user) {
+      if (result.user) {
         // Adding user details in our database endpoint 'users/'.
         this.auth.user$.subscribe((data) => {
           this.userService.addUser(data);
         });
         // this.router.navigate([this.returnUrl]);
         this.router.navigateByUrl(this.returnUrl);
-        this.alertService.fireToast('success','Login Successfull');
-      }
-      else {
+        this.alertService.fireToast('success', 'Login Successfull');
+      } else {
         this.loading = false;
       }
     });

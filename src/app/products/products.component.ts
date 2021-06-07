@@ -50,10 +50,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParamMap
     .subscribe((queryParams: ParamMap) => {
       this.category = queryParams.get('category') || '';
-      if(this.category !== '') {
+      if (this.category !== '') {
         this.categoryFilter(this.category);
-      }
-      else {
+      } else {
         this.filteredProducts = this.products;
       }
     });
@@ -61,7 +60,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   categoryFilter(category: string) {
     this.filteredProducts = this.products.filter((value: any) => {
-      if(value?.category === category) return true;
+      if (value?.category === category) return true;
     });
     // console.log(this.filteredProducts);
   }

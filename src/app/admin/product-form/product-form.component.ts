@@ -24,16 +24,16 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   subscription1: Subscription;
   subscription2: Subscription;
 
-  product_key: string;
+  productKey: string;
   productData: any = {};
 
   imageChangedEvent: any;
   croppedImage: any;
   productImage = {name: '', file: null, url: ''};
-  imgSrcPreviewCard: string = '';
+  imgSrcPreviewCard = '';
   downloadUrl: string;
 
-  loading: boolean = false;
+  loading = false;
 
   constructor(private fb: FormBuilder,
               private modalService: NgbModal,
@@ -42,10 +42,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
               private storage: AngularFireStorage,
               private categoryService: CategoryService,
               private productService: ProductService,
-              private activatedRoute: ActivatedRoute) { 
+              private activatedRoute: ActivatedRoute) {
                 // this.activatedRoute.paramMap
                 // .subscribe((paramMap) => {
-                //   this.product_key = paramMap.get('unique_key');
+                //   this.productKey = paramMap.get('unique_key');
                 // });
                 // Using take() in rxjs because here I dont need new values, just want a route parameter.
                 // then take() function will automatically unsubscribe the observable after taking 1 value.
@@ -53,7 +53,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
                 .pipe(
                   take(1)
                 ).subscribe((paramMap) => {
-                    this.product_key = paramMap.get('unique_key');
+                    this.productKey = paramMap.get('unique_key');
                   });
               }
 
@@ -61,16 +61,16 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.initializeForm();
     this.loadCategoriesData();
 
-    if(this.product_key && this.product_key !== '') {
+    if (this.productKey && this.productKey !== '') {
       this.loadProductData();
     }
   }
 
   initializeForm() {
     this.productForm = this.fb.group({
-      title: new FormControl('',[Validators.required, Validators.minLength(3)]),
-      price: new FormControl('',[Validators.required, Validators.min(0)]),
-      currency: new FormControl('INR',Validators.required),
+      title: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      price: new FormControl('', [Validators.required, Validators.min(0)]),
+      currency: new FormControl('INR', Validators.required),
       category: new FormControl('', [Validators.required]),
       upload_type: new FormControl(''),
       image_url: new FormControl('')
@@ -98,8 +98,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.categories = [];
     // Iterating over all properties of an object send by the server and formatting them into an array.
     // As in HTML template *ngFor directive works for iteratives like Arrays.
-    for(const item in data) {
-      let obj = {
+    for (const item in data) {
+      const obj = {
         key: item,
         name: data[item]?.name
       };
@@ -108,24 +108,23 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: FormGroup) {
-    if(form.valid) {
+    if (form.valid) {
       this.loading = true;
       console.log(form.value);
-      if(form.controls.upload_type.value === 'upload') {
+      if (form.controls.upload_type.value === 'upload') {
         this.uploadImage(form);
       }
       this.addProduct(form);
-    }
-    else {
+    } else {
       this.alertService.fireToast('error', 'Please fill all the fields with valid information');
     }
   }
 
   addProduct(form: FormGroup) {
-    if(this.product_key && this.product_key !== '') {
+    if (this.productKey && this.productKey !== '') {
       // Update this product in my Database.
       const final_data = this.prepareAttributes(form.value);
-      this.productService.update(this.product_key, final_data)
+      this.productService.update(this.productKey, final_data)
       .then(() => {
         this.alertService.fireToast('success', 'Product updated successfully.');
       })
@@ -133,8 +132,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         console.log(reason);
         this.alertService.fireToast('error', 'Some error occurred.');
       });
-    }
-    else {
+    } else {
       // Creating this product in my Database.
       const final_data = this.prepareAttributes(form.value);
       this.productService.create(final_data)
@@ -172,12 +170,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   prepareAttributes(data) {
     let image_url = '';
-    if(this.productForm.controls.upload_type.value === 'upload') {
+    if (this.productForm.controls.upload_type.value === 'upload') {
       image_url = this.downloadUrl;
     } else {
       image_url = data.image_url;
     }
-    if(this.product_key && this.product_key !== '') {
+    if (this.productKey && this.productKey !== '') {
       return {
         title: data.title,
         image_url: image_url,
@@ -201,13 +199,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   loadProductData() {
-    this.subscription2 = this.productService.get(this.product_key)
+    this.subscription2 = this.productService.get(this.productKey)
     .subscribe((data) => {
       data.map((value) => {
         const key = value?.payload?.key;
         const data = value?.payload?.val();
         // console.log(key,data);
-        this.formatProductData(key,data);
+        this.formatProductData(key, data);
       });
       console.log(this.productData);
       this.prefillForm();
@@ -215,7 +213,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   formatProductData(key: string, data: any) {
-    this.productData[key] = data; 
+    this.productData[key] = data;
   }
 
   prefillForm() {
@@ -234,8 +232,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   imageErrorHandler(event) {
     // console.log(event.target.src);
-    if(this.image_url.value) {
-      this.alertService.fireToast('error','Enable to fetch your given image');
+    if (this.image_url.value) {
+      this.alertService.fireToast('error', 'Enable to fetch your given image');
     }
     event.target.src = './../../../assets/img/default-product-image.png';
   }
@@ -244,7 +242,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productForm.controls.image_url.setValue('');
     const files = event.target.files;
     console.log(event.target.files);
-    
+
     if (files.length > 0) {
       console.log(event.target.files[0]);
       const ngbModalOptions: NgbModalOptions = {
@@ -296,7 +294,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.productImage.file = this.croppedImage;
     this.productImage.name = this.croppedImage.name;
     console.log(this.productImage);
-    
+
     this.modalService.dismissAll();
     this.imageChangedEvent = null;
   }
@@ -307,27 +305,27 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   // defined getter functions for directly accessing the form fields in HTML template
   get title() {
-    return this.productForm.controls.title; 
+    return this.productForm.controls.title;
   }
   get price() {
-    return this.productForm.controls.price; 
+    return this.productForm.controls.price;
   }
   get currency() {
-    return this.productForm.controls.currency; 
+    return this.productForm.controls.currency;
   }
   get category() {
-    return this.productForm.controls.category; 
+    return this.productForm.controls.category;
   }
   get upload_type() {
-    return this.productForm.controls.upload_type; 
+    return this.productForm.controls.upload_type;
   }
   get image_url() {
-    return this.productForm.controls.image_url; 
+    return this.productForm.controls.image_url;
   }
 
   ngOnDestroy(): void {
     this.subscription1.unsubscribe();
-    if(this.product_key && this.product_key !== '') {
+    if (this.productKey && this.productKey !== '') {
       this.subscription2.unsubscribe();
     }
   }

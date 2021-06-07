@@ -17,7 +17,7 @@ export class AlertService {
       customClass: {
         container: 'swal-container-responsive',
       },
-      
+
     });
     this.getAlert(toast, type, title);
   }
@@ -25,7 +25,7 @@ export class AlertService {
   getAlert(toast: any, type: string, title: string) {
     toast.fire({
       icon: type,
-      title: title 
+      title: title
     });
   }
 }

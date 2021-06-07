@@ -11,7 +11,7 @@ import { ShoppingCartService } from './../../../service/shopping-cart.service';
   styleUrls: ['./product-card.component.css'],
   animations: [
     trigger('fadeIn', [
-      transition('void => *',[
+      transition('void => *', [
         // style({opacity: 0}),
         // animate(200, style({opacity: 1}))
         // This above is same as the below: as angular is smart enough to know that in my target state(* default state) element opacity should be 1.
@@ -33,7 +33,7 @@ export class ProductCardComponent implements OnInit {
   @Input('product') product: ProductDataModels;
   @Input('cart-data') cartData;
 
-  constructor(private cartService :ShoppingCartService) { }
+  constructor(private cartService: ShoppingCartService) { }
 
   ngOnInit(): void {
   }
@@ -48,8 +48,8 @@ export class ProductCardComponent implements OnInit {
   }
 
   getQuantity(): number {
-    if(!this.cartData) return 0;
-    return this.cartData?.items[this.product.key] ? this.cartData?.items[this.product.key]?.quantity : 0
+    if (!this.cartData) return 0;
+    return this.cartData?.items[this.product.key] ? this.cartData?.items[this.product.key]?.quantity : 0;
   }
 
 }

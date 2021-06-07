@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
@@ -10,7 +10,7 @@ import { UserDataModels } from './../data-models/UserDataModels';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnInit {
+export class AuthService {
 
   user$: Observable<firebase.default.User>;
   isLoggedIn: boolean = false;
@@ -19,17 +19,15 @@ export class AuthService implements OnInit {
     // Every time a user "log in" or "log out" this user$ Observable will emit a value either null or an firebase.User object.
     this.user$ = afAuth.authState;
     this.user$.subscribe((data) => {
-      if(data) this.isLoggedIn = true;
+      if (data) this.isLoggedIn = true;
     });
-    
-  }
 
-  ngOnInit() {}
+  }
 
   login() {
     // When I call signInWithRedirect -> my app is unloaded as the user is now on the Firebase auth page (look at the url).
     // After that it redirects BACK to your application to the same route it was on when you called it
-    // So there is no point in trying to run code immediately AFTER calling signInWithRedirect, as that code is unreachable. 
+    // So there is no point in trying to run code immediately AFTER calling signInWithRedirect, as that code is unreachable.
     // This is why there is the method getRedirectResult - which should be somewhere in your startup routine.
     this.afAuth.signInWithRedirect(new firebase.default.auth.GoogleAuthProvider());
   }
@@ -50,7 +48,7 @@ export class AuthService implements OnInit {
   get userDetails$(): Observable<UserDataModels> {
     return this.user$.pipe(
       switchMap((user: firebase.default.User) => {
-        if(user) return this.userServie.getUser(user?.uid).valueChanges();
+        if (user) return this.userServie.getUser(user?.uid).valueChanges();
         else return of(null);
       })
     );

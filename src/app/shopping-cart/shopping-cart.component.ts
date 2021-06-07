@@ -22,23 +22,23 @@ export class ShoppingCartComponent implements OnInit {
 
   async loadShoppingCartData() {
     this.loading = true;
-    let cart = await this.cartService.getCartRef();
+    const cart = await this.cartService.getCartRef();
     cart.snapshotChanges().subscribe(data => {
       // console.log(data?.payload?.val()['items']);
       // A check when the cart is empty so their will be no cartRef in the database.
-      if(!data?.key) {
+      if (!data?.key) {
         this.shoppingCartData = [];
         this.loading = false;
         return;
       }
       this.shoppingCartData = [];
-      for (const [key,value] of Object.entries(data?.payload?.val()['items'])) {
+      for (const [key, value] of Object.entries(data?.payload?.val()['items'])) {
         // console.log(key,value);
-        let obj = {
+        const obj = {
           key: key,
           quantity: value?.['quantity'],
           ...value?.['product']
-        }
+        };
         this.shoppingCartData.push(obj);
       }
       this.loading = false;
@@ -65,9 +65,9 @@ export class ShoppingCartComponent implements OnInit {
   // This function can be replaced by getQuantity() function in product-card component
   // This function is returning the quantity of a single product in a cart.
   getQuantity(product: ProductDataModels): number {
-    if(this.shoppingCartData.length === 0) return 0;
+    if (this.shoppingCartData.length === 0) return 0;
     for (let i = 0; i < this.shoppingCartData.length; i++) {
-      if(this.shoppingCartData[i].quantity === product?.quantity) return product?.quantity;
+      if (this.shoppingCartData[i].quantity === product?.quantity) return product?.quantity;
     }
   }
 
@@ -75,12 +75,12 @@ export class ShoppingCartComponent implements OnInit {
     this.cartService.clearCart();
   }
 
-  //Repeat Function
+  // Repeat Function
   addToCart(product: ProductDataModels) {
     this.cartService.addProductToCart(product);
   }
 
-  //Repeat Function
+  // Repeat Function
   removeFromCart(product: ProductDataModels) {
     this.cartService.removeProductFromCart(product);
   }
