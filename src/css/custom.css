@@ -1,6 +1,8 @@
 :root {
     --theme: #e1efff;
     --theme-light: #f3f9ff;
+    --theme-dark: #0795ff;
+    --theme-purple: #4958b0;
 }
 
 .theme-btn {
@@ -55,6 +57,9 @@ button:focus {outline:0;}
 /* For preview card in admin product form component */
     .preview-card {
         margin-top: 3rem;
+    }
+    html {
+        font-size: smaller;
     }
 }
 /* Small devices */

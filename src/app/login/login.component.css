@@ -2,6 +2,22 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
 }
 
+.google-login-img {
+    background-image: url('../../assets/img/google_logo.png');
+    background-size: contain;
+    width: 45px;
+    height: 45px;
+    vertical-align: middle;
+    display: inline-block;
+    background-color: white;
+    border: 1px solid #007bff;
+    border-radius: .3rem;
+}
+
+.google-login-btn {
+    padding: 0 1rem 0 0;
+}
+
 /* Login Page svg image div reponsive css */
 @media (max-width: 991.98px) {
     .login-page-image {

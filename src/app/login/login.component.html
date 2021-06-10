@@ -9,9 +9,12 @@
         <div *ngIf="!auth.isLoggedIn; else loggedIn">
           <h1 class="h3 mb-4 font-weight-normal">Please Login</h1>
           <div class="col-lg-auto">
-            <button (click)="login()" class="btn btn-lg btn-primary" type="button">
-                Login with Google <i class="fa fa-google"></i>
+            <button (click)="login()" class="btn btn-lg btn-primary google-login-btn" type="button">
+              <div class="google-login-img mr-2"></div> Log In with Google
             </button>
+            <!-- <button (click)="login()" class="btn btn-lg btn-primary" type="button">
+                Login with Google <i class="fa fa-google"></i>
+            </button> -->
           </div>
           <p class="mt-2 mb-2 text-muted">OR</p>
           <div class="col-lg-auto">
