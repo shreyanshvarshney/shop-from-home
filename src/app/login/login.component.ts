@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './../../service/auth.service';
 import { AlertService } from 'src/service/alert.service';
 import { UserService } from './../../service/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loading: boolean = false;
   returnUrl: string;
+
+  subscription: Subscription
 
   constructor(public auth: AuthService,
               // auth instance is public member because i am using it in my html template.
@@ -40,7 +43,7 @@ export class LoginComponent implements OnInit {
       console.log(result);
       if (result.user) {
         // Adding user details in our database endpoint 'users/'.
-        this.auth.user$.subscribe((data) => {
+        this.subscription = this.auth.user$.subscribe((data) => {
           this.userService.addUser(data);
         });
         // this.router.navigate([this.returnUrl]);
@@ -63,4 +66,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  
 }
