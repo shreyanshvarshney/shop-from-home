@@ -7,6 +7,22 @@
     height: auto;
 }
 
+.upload-img {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-image: url('../../../assets/img/click_upload_image.jpeg');
+    background-size: cover;
+    /* background-position: center; */
+    cursor: pointer;
+    border-radius: 10%;
+    border: 1px solid var(--theme-purple);
+}
+
+.upload-file-value {
+    margin: 0;
+}
+
 /* Modal CSS starts here */
 .modal-content {
 

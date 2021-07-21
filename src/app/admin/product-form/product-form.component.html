@@ -75,8 +75,11 @@
                 </div>
                 <div class="row" *ngIf="upload_type.value === 'upload'">
                     <div class="form-group col-lg-12">
-                        <label for="image_url">Upload Image</label>
-                        <input (change)="fileChangeEvent($event, content)" type="file" accept=".jpeg, .png, .jpg" name="" id="">
+                        <div (click)="fileInput.click()" class="upload-img"></div>
+                        <!-- <label for="image_url">Upload Image</label> -->
+                        <input hidden #fileInput (change)="fileChangeEvent($event, content)" type="file" accept=".jpeg, .png, .jpg" name="" id="">
+                        <p *ngIf="productImage.file" class="text-muted upload-file-value">{{ productImage?.file?.name }}</p>
+                        <p *ngIf="productData.image_url && !productImage.file" class="text-muted upload-file-value">{{ productData?.image_url }}</p>
                     </div>
                 </div>
                 <div class="row-lg-6 mt-4">

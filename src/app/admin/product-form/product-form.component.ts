@@ -72,7 +72,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       price: new FormControl('', [Validators.required, Validators.min(0)]),
       currency: new FormControl('INR', Validators.required),
       category: new FormControl('', [Validators.required]),
-      upload_type: new FormControl(''),
+      upload_type: new FormControl('', Validators.required),
       image_url: new FormControl('')
     });
     // console.log(this.productForm);
@@ -254,6 +254,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.modalService.open(content, ngbModalOptions);
     } else {
       this.imgSrcPreviewCard = '';
+      this.productImage = {name: '', file: null, url: ''};
     }
   }
 
@@ -301,6 +302,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   closeModal(modal: NgbActiveModal) {
     modal.dismiss();
+    this.imageChangedEvent = null;
+    this.croppedImage = null;
+    this.imgSrcPreviewCard = '';
   }
 
   // defined getter functions for directly accessing the form fields in HTML template

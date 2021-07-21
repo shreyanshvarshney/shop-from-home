@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   returnUrl: string;
 
-  subscription: Subscription
+  subscription: Subscription;
 
   constructor(public auth: AuthService,
               // auth instance is public member because i am using it in my html template.
@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (result.user) {
         // Adding user details in our database endpoint 'users/'.
         this.subscription = this.auth.user$.subscribe((data) => {
+          console.log(data);
           this.userService.addUser(data);
         });
         // this.router.navigate([this.returnUrl]);
