@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -12,6 +12,7 @@ import { UserService } from './../service/user.service';
 import { CategoryService } from './../service/category.service';
 import { ProductService } from './../service/product.service';
 import { NavigationService } from './../service/navigation.service';
+import { ShoppingCartService } from './../service/shopping-cart.service';
 import { AdminAuthGuard } from './../guards/admin-auth.guard';
 import { AuthGuard } from './../guards/auth.guard';
 
@@ -27,9 +28,12 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { ErrorComponent } from './error/error.component';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
+import { ProductCardComponent } from './products/product-card/product-card.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 // For using Realtime Database in Firebase
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -42,6 +46,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS} from '@angular/material/radio';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -57,7 +64,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     OrderSuccessComponent,
     MyOrdersComponent,
     ProductFormComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProductFilterComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +74,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     NgbModule,
+    NgbModalModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -73,7 +84,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTooltipModule,
     MatButtonModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    ImageCropperModule
   ],
   // providers: [AngularFirestore],
   providers: [
@@ -82,8 +96,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CategoryService,
     ProductService,
     NavigationService,
+    ShoppingCartService,
     AuthGuard,
-    AdminAuthGuard
+    AdminAuthGuard,
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+    }
   ],
   bootstrap: [AppComponent]
 })

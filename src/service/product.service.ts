@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase, private storage: AngularFireStorage) { }
 
   create(data: any) {
     return this.db.list('products').push(data);
@@ -17,18 +18,16 @@ export class ProductService {
   //   let ref: firebase.default.database.Reference;
   //   return ref.child('products').on("value",(a) => {return a.numChildren()});
   // }
-  
+
   getAllPagination(pageSize: number, pageIndex: number, previousPageIndex: number, lastElementKey: string, firstElementKey: string) {
     return this.db.list('products', (ref: firebase.default.database.Reference) => {
-      if(pageIndex === 0) {
+      if (pageIndex === 0) {
         console.log('first');
         return ref.orderByKey().limitToFirst(pageSize);
-      }
-      else if(pageIndex > previousPageIndex) {  
+      } else if (pageIndex > previousPageIndex) {
         console.log('second');
         return ref.orderByKey().startAfter(lastElementKey).limitToFirst(pageSize);
-      }
-      else if(pageIndex < previousPageIndex) {
+      } else if (pageIndex < previousPageIndex) {
         console.log('third');
         return ref.orderByKey().endBefore(firstElementKey).limitToLast(pageSize);
       }
@@ -44,11 +43,19 @@ export class ProductService {
   }
 
   update(key: string, data: any) {
-    return this.db.list('products').update(key,data);
+    return this.db.list('products').update(key, data);
     // return this.db.object('products/' + key).update(data);
   }
 
   delete(key: string) {
     return this.db.list('products').remove(key);
+  }
+
+  uploadImage(filePath: string, file: File): AngularFireUploadTask {
+    return this.storage.upload(filePath, file);
+  }
+
+  deleteImage(filePath: string) {
+    return this.storage.storage.refFromURL(filePath).delete();
   }
 }

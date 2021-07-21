@@ -1,0 +1,18 @@
+<div @fadeIn class="card m-auto">
+    <img class="card-img-top" [src]="product?.image_url" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{product?.title}}</h5>
+      <p class="card-text">{{product?.price | currency: product?.currency}}</p>
+      <button *ngIf="getQuantity() === 0; else updateQuantity" (click)="addToCart()" type="button" class="btn theme-btn btn-sm">Add to <i class="fa fa-cart-plus"></i></button>
+    </div>
+    <div class="card-footer">
+        <span class="badge badge-primary">{{product?.category}}</span>
+    </div>
+</div>
+<ng-template #updateQuantity>
+  <div @fadeIn500ms>
+    <button (click)="addToCart()" class="btn theme-btn btn-sm"> <span class="fa fa-plus"></span></button>
+    <span class="ml-2 mr-2">{{ getQuantity() }} in cart</span>
+    <button (click)="removeFromCart()" class="btn theme-btn btn-sm"> <span class="fa fa-minus"></span></button>
+  </div>
+</ng-template>

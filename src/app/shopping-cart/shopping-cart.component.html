@@ -1,1 +1,61 @@
-<p>shopping-cart works!</p>
+<div class="mt-4" *ngIf="shoppingCartData.length!==0">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-1 mt-1">Shopping Cart</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>S no.</th>
+                            <th></th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- index as x; -->
+                        <tr *ngFor="let item of shoppingCartData; let x=index;">
+                            <td>{{x+1}}</td>
+                            <td><img class="rounded-circle product-img" width="100px" height="auto" [src]="item?.image_url" alt="Product Image"></td>
+                            <td>{{item?.title}}</td>
+                            <td>
+                                <button (click)="addToCart(item)" class="btn theme-btn btn-sm"> <span class="fa fa-plus"></span></button>
+                                <span class="ml-2 mr-2">{{ getQuantity(item) }} in cart</span>
+                                <button (click)="removeFromCart(item)" class="btn theme-btn btn-sm"> <span class="fa fa-minus"></span></button>
+                            </td>
+                            <td>{{item?.price | currency: item?.currency}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Subtotal ({{ calculateTotalQuantity() }} item<span *ngIf="calculateTotalQuantity() !== 1">s</span>): <b>{{ calculateTotalAmount() | currency:"INR" }}</b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row mt-4">
+                <div class="col-lg-4">
+                    <button (click)="clearCart()" class="btn theme-btn btn-sm">Empty Cart <i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="shoppingCartData.length===0 && !loading">
+    <div class="mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4>Your Shop From Home Cart is empty.</h4>
+                <p class="text-muted">Add products in your cart <a routerLink="/products">continue shopping</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading">
+    <div class="text-center mt-4">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+</div>

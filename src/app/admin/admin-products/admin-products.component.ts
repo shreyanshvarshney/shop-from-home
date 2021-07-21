@@ -32,9 +32,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   };
   lastElementKey: string;
   firstElementKey: string;
-  keyDecrement: number = 0;
+  keyDecrement = 0;
 
-  constructor(private productService: ProductService, 
+  constructor(private productService: ProductService,
               private router: Router,
               private alertService: AlertService) { }
 
@@ -48,9 +48,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       console.log(data.length);
       this.productsLength = data.length;
     });
-    this.subscription = this.productService.getAllPagination(this.pageEvent.pageSize,this.pageEvent.pageIndex, this.pageEvent.previousPageIndex, this.lastElementKey, this.firstElementKey)
-    .subscribe((data) => {    
-      console.log(data);  
+    this.subscription = this.productService.getAllPagination(this.pageEvent.pageSize, this.pageEvent.pageIndex, this.pageEvent.previousPageIndex, this.lastElementKey, this.firstElementKey)
+    .subscribe((data) => {
+      console.log(data);
 
       this.lastElementKey = data[data.length - 1 - this.keyDecrement]?.key;
       this.firstElementKey = data[0]?.key;
@@ -58,7 +58,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       console.log(this.lastElementKey);
       console.log(this.firstElementKey);
 
-       this.productsDataServer = data.map((value) => {
+      this.productsDataServer = data.map((value) => {
         // console.log(value);
         const key = value?.payload?.key;
         const data: Object = value?.payload?.val();
@@ -66,8 +66,8 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
         const obj = {
           key: key,
           ...data
-        };        
-        return obj
+        };
+        return obj;
       });
 
 
@@ -75,18 +75,18 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       this.pageEvent.length = this.productsLength;
       console.log(this.products);
     });
-    
-    
+
   }
 
   updateProduct(key: string) {
-    this.router.navigate(['/admin/products/update',key]);
+    this.router.navigate(['/admin/products/update', key]);
   }
 
-  deleteProduct(key: string) {
+  deleteProduct(product: ProductDataModels) {
     // if user clicks the cancel button we will simply return from the delete function.
-    if(!window.confirm('Are you sure you want to delete this product?')) return;
-    this.productService.delete(key)
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+
+    this.productService.delete(product.key)
     .then(() => {
       this.alertService.fireToast('success', 'Product deleted successfully.');
     })
@@ -94,6 +94,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       console.log(reason);
       this.alertService.fireToast('error', 'Some error occurred.');
     });
+    if (product.upload_type === 'upload') {
+      this.productService.deleteImage(product.image_url);
+    }
   }
 
   sortData(sort: Sort) {
@@ -111,7 +114,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
       const isAsc = sort.direction === 'asc';
       // console.log(isAsc)
       // console.log(a,b);
-      
+
       switch (sort.active) {
         case 'name': return this.compare(a?.title, b?.title, isAsc);
         case 'price': return this.compare(a?.price, b?.price, isAsc);
@@ -126,7 +129,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   // Implementing Client-side Searching.
   filter() {
-    let query: string = this.search;
+    const query: string = this.search;
     this.filteredProducts = (query) ? this.products.filter((value) => {
       return value.title.toLowerCase().includes(query.toLowerCase());
     }) : this.products;
@@ -136,10 +139,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   loadPage(event: PageEvent) {
     console.log(this.pageEvent);
-    if(this.pageEvent.pageSize > event?.pageSize) {
+    if (this.pageEvent.pageSize > event?.pageSize) {
       this.keyDecrement = this.pageEvent.pageIndex;
-      console.log(this.keyDecrement);
-      
+      // console.log(this.keyDecrement);
     }
     this.pageEvent = event;
     console.log(event);

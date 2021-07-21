@@ -8,7 +8,7 @@ import { NavigationService } from 'src/service/navigation.service';
 })
 export class ErrorComponent implements OnInit {
 
-  previousUrl: string = '';
+  previousUrl = '';
 
   constructor(public navigationService: NavigationService) { }
 

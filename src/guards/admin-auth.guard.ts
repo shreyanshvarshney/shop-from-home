@@ -31,7 +31,7 @@ export class AdminAuthGuard implements CanActivate {
       }),
       map((data) => {
         // return data.isAdmin ? true : false;
-        if(data.isAdmin) return true;
+        if (data.isAdmin) return true;
         else {
           this.router.navigate(['/']);
           return false;
@@ -52,11 +52,11 @@ export class AdminAuthGuard implements CanActivate {
     //     let isAdmin: boolean;
     //     value.subscribe((data) => {
     //       console.log(data.isAdmin);
-          
+
     //       isAdmin = data.isAdmin;
     //     });
     //     console.log(isAdmin);
-        
+
     //     return isAdmin;
     //   }),
     //   map((value) => {
@@ -64,5 +64,5 @@ export class AdminAuthGuard implements CanActivate {
     //   })
     // );
   }
-  
+
 }

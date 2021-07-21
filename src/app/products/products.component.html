@@ -1,1 +1,23 @@
-<p>products works!</p>
+<div class="row mt-4" *ngIf="!loading; else loadingSpinner">
+    <div class="col-lg-3 mb-5">
+        <app-product-filter [category]="category"></app-product-filter>
+    </div>
+    <div class="col-lg-9">
+        <div class="row">
+            <ng-container *ngFor="let item of filteredProducts; let x = index">
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <app-product-card [product]="item" [cart-data]="cartData"></app-product-card>
+                </div>
+            </ng-container>
+        </div>
+        <div *ngIf="filteredProducts.length === 0">
+            <p>No products available for this category</p>
+        </div>
+    </div>
+</div>
+<ng-template #loadingSpinner>
+    <div class="text-center mt-4">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <p class="mt-2">Loading products...</p>
+    </div>
+</ng-template>

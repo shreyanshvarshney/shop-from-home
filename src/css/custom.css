@@ -1,5 +1,8 @@
 :root {
     --theme: #e1efff;
+    --theme-light: #f3f9ff;
+    --theme-dark: #0795ff;
+    --theme-purple: #4958b0;
 }
 
 .theme-btn {
@@ -35,6 +38,7 @@ button:focus {outline:0;}
     justify-content: space-between;
     padding: .5rem 1rem;
     border-bottom: 2px solid #e1efff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 15px 0px, rgba(0, 0, 0, 0.05) 0px 0px 6px 0px;
 }
   
 /* @media screen and (min-width: 768px) {
@@ -54,12 +58,24 @@ button:focus {outline:0;}
     .preview-card {
         margin-top: 3rem;
     }
+    html {
+        font-size: smaller;
+    }
 }
 /* Small devices */
 @media (max-width: 767.98px) {
     .preview-card {
         margin-top: 3rem;
     }
+    
+    /* Alert Service Swal CSS starts */
+    .swal-container-responsive {
+        width: 50%;
+    }
+    .swal2-title {
+        font-size: 0.5em !important;
+    }
+    /* Alert Service Swal CSS ends */
 }
 /* Medium devices */
 @media (max-width: 991.98px) {

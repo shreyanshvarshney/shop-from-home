@@ -72,7 +72,7 @@ const routes: Routes = [
   {
     path: '**',
     // redirectTo: '404',
-    component: ErrorComponent 
+    component: ErrorComponent
   }
 ];
 

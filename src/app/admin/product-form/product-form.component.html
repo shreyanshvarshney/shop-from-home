@@ -61,15 +61,30 @@
                         </small>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row-lg-12 mt-2 mb-2">
+                    <mat-radio-group class="col-lg-12" formControlName="upload_type" aria-label="Select an option">
+                        <mat-radio-button value="upload">Upload</mat-radio-button>
+                        <mat-radio-button class="ml-4" value="url">URL</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="row" *ngIf="upload_type.value === 'url'">
                     <div class="form-group col-lg-12">
                         <label for="image_url">Image URL</label>
                         <input formControlName="image_url" class="form-control" type="text" id="image_url" name="image_url">
                     </div>
                 </div>
+                <div class="row" *ngIf="upload_type.value === 'upload'">
+                    <div class="form-group col-lg-12">
+                        <div (click)="fileInput.click()" class="upload-img"></div>
+                        <!-- <label for="image_url">Upload Image</label> -->
+                        <input hidden #fileInput (change)="fileChangeEvent($event, content)" type="file" accept=".jpeg, .png, .jpg" name="" id="">
+                        <p *ngIf="productImage.file" class="text-muted upload-file-value">{{ productImage?.file?.name }}</p>
+                        <p *ngIf="productData.image_url && !productImage.file" class="text-muted upload-file-value">{{ productData?.image_url }}</p>
+                    </div>
+                </div>
                 <div class="row-lg-6 mt-4">
-                    <div *ngIf="!product_key; else updateView">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div *ngIf="!productKey; else updateView">
+                        <button [disabled]="loading" type="submit" class="btn btn-primary">Submit</button>
                         <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
@@ -79,9 +94,10 @@
                                 routerLink="/admin/products/list">   
                             <i class="fa fa-arrow-left"></i>
                         </button>
+                        <span *ngIf="loading"><mat-spinner diameter="25"></mat-spinner></span>
                     </div>
                     <ng-template #updateView>
-                        <button [disabled]="productForm.pristine" type="submit" class="btn btn-primary">Update</button>
+                        <button [disabled]="productForm.pristine || loading" type="submit" class="btn btn-primary">Update</button>
                         <button class="btn theme-btn ml-4"
                                 matTooltip="Back to Products List"
                                 matTooltipPosition="below"
@@ -91,13 +107,14 @@
                                 routerLink="/admin/products/list">   
                             <i class="fa fa-arrow-left"></i>
                         </button>
+                        <span *ngIf="loading"><mat-spinner diameter="25"></mat-spinner></span>
                     </ng-template>
                 </div>
             </form>
         </div>
         <div class="col-lg-5 align-self-center offset-lg-1 preview-card">
-            <div *ngIf="title.value" class="card" style="width: 100%">
-                <img class="card-img-top" src="{{ image_url.value }}" alt="Product Image" (error)="imageErrorHandler($event)">
+            <div *ngIf="title.value" class="card">
+                <img class="card-img-top" src="{{ image_url.value || imgSrcPreviewCard }}" alt="Product Image" (error)="imageErrorHandler($event)">
                 <!-- onerror="this.src='./../../../assets/img/default-product-image.png';" -->
                 <!-- Above is method of doing it without (error) event -->
                 <div class="card-body">
@@ -111,3 +128,26 @@
     </div>
 
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Crop your image</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal(modal)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1/1"
+            format="png,jpeg"
+            (imageCropped)="imageCropped($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" ngbAutofocus class="btn btn-outline-dark" (click)="cropImage()">Crop</button>
+    </div>
+</ng-template>

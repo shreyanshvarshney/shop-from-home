@@ -7,25 +7,28 @@
     <div [ngbCollapse]="isMenuCollapsed" id="navbarsExampleDefault" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/shopping-cart" routerLinkActive="active" (click)="isMenuCollapsed = true">Shopping Cart</a>
+          <a class="nav-link" routerLink="/products" routerLinkActive="active" (click)="isMenuCollapsed = true"><span class="fa fa-delicious"></span> Products</a>
         </li>
         <li *ngIf="userDetails; else nonAuthorizedUser" ngbDropdown class="nav-item dropdown">
           <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="fa fa-user-circle"></span> {{ userDetails.name }}
+            <img class="profile-image" [src]="userDetails?.profile_pic" alt="" width="20" height="auto"><span class="profile-name"> {{ userDetails?.name }} </span><span class="fa fa-caret-down align-middle"></span>
           </a>
           <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
             <a ngbDropdownItem routerLink="/my-orders" (click)="isMenuCollapsed = true">My Orders</a>
-            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/orders" (click)="isMenuCollapsed = true">Manage Orders</a>
-            <a *ngIf="userDetails.isAdmin" ngbDropdownItem routerLink="/admin/products/list" (click)="isMenuCollapsed = true">Manage Products</a>
+            <a *ngIf="userDetails?.isAdmin" ngbDropdownItem routerLink="/admin/orders" (click)="isMenuCollapsed = true">Manage Orders</a>
+            <a *ngIf="userDetails?.isAdmin" ngbDropdownItem routerLink="/admin/products/list" (click)="isMenuCollapsed = true">Manage Products</a>
             <li><hr class="dropdown-divider"></li>
-            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
+            <a ngbDropdownItem (click)="logout(); isMenuCollapsed = true" class="logout"><img class="align-middle" src="../../assets/img/logout.svg" alt="" width="14.86px" height="auto"><span class="align-middle"> Logout</span></a>
           </div>
         </li>
         <ng-template #nonAuthorizedUser>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="isMenuCollapsed = true">Login</a>
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="isMenuCollapsed = true"><img class="align-middle" src="../../assets/img/user_icon.png" alt="" width="21px" height="auto"><span class="align-middle"> Login</span></a>
           </li>
         </ng-template>
       </ul>
+      <div class="my-2">
+        <button routerLink="/shopping-cart" type="button" class="btn theme-btn" (click)="isMenuCollapsed = true"><span class="fa fa-cart-arrow-down"></span> Cart <span class="badge badge-info">{{ cartQuantity }}</span></button>
+      </div>
     </div>
 </nav>

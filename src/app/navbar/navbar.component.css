@@ -1,3 +1,15 @@
 .logout {
     cursor: pointer;
 }
+.profile-image {
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.profile-name {
+    vertical-align: middle;
+}
+
+/* Removing the default arrow/caret down of bootstrap */
+.dropdown-toggle::after {
+    display: none;
+}

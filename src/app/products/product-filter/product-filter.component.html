@@ -1,0 +1,6 @@
+<div class="sticky-top">
+    <div class="list-group m-auto col-lg-12 col-md-6 col-sm-8 col-8">
+        <button [class.active]="!category" class="list-group-item list-group-item-action" routerLink="/products"><b>All Categories</b></button>
+        <button *ngFor="let item of categories" routerLink="/products" [queryParams]="{category:item?.key}" routerLinkActive="active" type="button" class="list-group-item list-group-item-action">{{item?.name}}</button>
+    </div>
+</div>
