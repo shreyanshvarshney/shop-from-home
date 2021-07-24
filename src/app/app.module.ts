@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -30,6 +30,7 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { ErrorComponent } from './error/error.component';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './products/product-card/product-card.component';
+import { FooterComponent } from './footer/footer.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -66,7 +67,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ProductFormComponent,
     ErrorComponent,
     ProductFilterComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +78,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AngularFireAuthModule,
     AngularFireStorageModule,
     NgbModule,
+    NgbCarouselModule,
     NgbModalModule,
     BrowserAnimationsModule,
     FormsModule,

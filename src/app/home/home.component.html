@@ -1,1 +1,118 @@
-<p>home works!</p>
+<ngb-carousel *ngIf="images">
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[0]" alt="Random first slide">
+      </div>
+      <div class="carousel-caption">
+        <h3 class="theme-color">Avail this 10% discount on all bakery products now!</h3>
+        <p>These are just dummy banners.</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[1]" alt="Random second slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>No mouse events...</h3>
+        <p>These are just dummy banners.</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[2]"  alt="Random third slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>No keyboard...</h3>
+        <p>These are just dummy banners.</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[3]" alt="Random fourth slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>Wrap after last slide.</h3>
+        <p>These are just dummy banners.</p>
+      </div>
+    </ng-template>
+</ngb-carousel>
+
+<div class="mt-4">
+  <div class="card">
+    <div class="card-header text-center">
+      <h5 class="m-0 text-muted">Shop by Category</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="category-box">
+            <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'bread'}">
+              <img class="category-img" src="../../assets/img/bread.jpeg" alt="Breads">
+              <p class="small text-center">Breads</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="category-box">
+            <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'cookies'}">
+              <img class="category-img" src="../../assets/img/cookies.jpeg" alt="Cookies">
+              <p class="small text-center">Cookies</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="category-box">
+            <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'creamcakes'}">
+              <img class="category-img" src="../../assets/img/creamcake.jpeg" alt="Creamcakes">
+              <p class="small text-center">Cream Cakes</p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="category-box">
+            <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'cupcakes'}">
+              <img class="category-img" src="../../assets/img/cupcake.jpeg" alt="Cupcakes">
+              <p class="small text-center">Cupcakes</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="category-box">
+            <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'dairy'}">
+              <img class="category-img" src="../../assets/img/dairy.jpeg" alt="Dairy Products">
+              <p class="small text-center">Dairy</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'fruits'}">
+            <div class="category-box">
+              <img class="category-img" src="../../assets/img/fruits.jpeg" alt="Fruits">
+              <p class="small text-center">Fruits</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'vegetables'}">
+            <div class="category-box">
+              <img class="category-img" src="../../assets/img/vegetables.jpeg" alt="Vegetables">
+              <p class="small text-center">Vegetables</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4">
+          <a class="category-link" [routerLink]="['/products']" [queryParams]="{category: 'seasonings'}">
+            <div class="category-box">
+              <img class="category-img" src="../../assets/img/seasonings.jpeg" alt="Seasonings and Spices">
+              <p class="small text-center">Seasonings and Spices</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

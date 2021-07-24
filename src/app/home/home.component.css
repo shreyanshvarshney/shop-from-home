@@ -1,0 +1,36 @@
+.card-header {
+    background-color: var(--theme-light);
+}
+
+.theme-color {
+    color: var(--theme);
+}
+
+.category-box {
+    box-sizing: border-box;
+    height: 110px;
+    width: 50%;
+    border: 1px solid #f2f8f9;
+    border-radius: 4px;
+    margin: auto;
+    margin-bottom: 1rem;
+    /* background-image: url('../../assets/img/cookies.jpeg');
+    background-size: auto;
+    background-repeat: no-repeat; */
+    overflow: hidden;
+}
+
+.category-box:hover {
+    transition: all 0.1s ease-out;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 11px 35px 2px;
+}
+
+.category-link {
+    text-decoration: none;
+    color: black;
+}
+
+.category-img {
+    height: 80%;
+    width: 100%;
+}

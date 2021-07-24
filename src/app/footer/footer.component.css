@@ -1,0 +1,8 @@
+.footer {
+    background-color: var(--theme-light);
+    margin-top: 60px;
+
+    /* For making footer sticky to the bottom */
+    position: sticky;
+    top: 100%;
+}
