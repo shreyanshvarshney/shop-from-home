@@ -74,10 +74,10 @@ export class NavbarComponent implements OnInit {
     // As I have subscribed to the cart service so everytime their is a change in cartData or I update the cart quantity from ui,
     // lines 78 80 81 will be re-executed and will update the cart quantity items in navbar.
     cart.snapshotChanges().subscribe((data) => {
-      // console.log(data.payload.val()['items'])
+      // console.log(data.payload.val()['items']);
       this.cartQuantity = 0;
       // A check when the cart is empty so their will be no cartRef in the database.
-      if (!data?.key) return;
+      if (!data?.key || !data.payload.val()['items']) return;
       // Iterating the Object
       for (const [key, value] of Object.entries((<any>data?.payload?.val()).items)) {
         this.cartQuantity += (value as any).quantity;
